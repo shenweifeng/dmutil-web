@@ -9,14 +9,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * @date 2014-3-8
  * 
- * @class com.dianmic.sync.domain.BaseModel
+ * 
+ * @date 2019年3月23日
  * 
  * @author swf
- * 
+ *
  * @Description bean基类
- * 
+ *
  */
 public abstract class BaseModel implements Serializable {
 

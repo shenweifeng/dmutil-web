@@ -8,6 +8,16 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+/**
+ * 
+ * 
+ * @date 2019年3月23日
+ * 
+ * @author swf
+ *
+ * @Description BeanManager
+ *
+ */
 public class BeanManager {
     protected static final Log           log = LogFactory.getLog(BeanManager.class);
 

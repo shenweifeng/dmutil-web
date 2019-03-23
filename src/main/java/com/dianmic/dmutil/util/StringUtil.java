@@ -1,8 +1,6 @@
 package com.dianmic.dmutil.util;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -154,46 +152,6 @@ public class StringUtil {
             return src.trim();
         }
         return "";
-    }
-
-    public static void main(String[] args) {
-        // String mobile = "18181155866";
-        // System.out.println(isMobileNO(mobile));
-
-        String s1 = "adfa_0_20190219163928_682.jpg";
-        String s2 = "0_20190119163928_682.jpg";
-        String s3 = "0_20180219163928_685.jpg";
-
-        int i1 = s1.lastIndexOf("_");
-        System.out.println(i1);
-        String s11 = s1.substring(0, i1);
-        System.out.println(s11);
-        int i2 = s11.lastIndexOf("_");
-        System.out.println(i2);
-        System.out.println(s1.substring(i2 + 1));
-
-        List<String> list = new ArrayList<String>();
-        list.add(s1);
-        list.add(s2);
-        list.add(s3);
-
-        for (String s : list) {
-            System.out.print(s + ",");
-        }
-        System.out.println();
-
-        System.out.println("排序后==============");
-        // Collections.sort(list);
-        list = CommonUtil.sortAlarmPic(list);
-
-        for (String s : list) {
-            System.out.print(s + ",");
-        }
-        System.out.println();
-
-        // Date d1 = DateUtil.strToDate(s1, "yyyyMMddHHmmssSSS");
-        // Date d2 = DateUtil.strToDate(s2, "yyyyMMddHHmmssSSS");
-        // System.out.println(d1.before(d2));
     }
 
 }

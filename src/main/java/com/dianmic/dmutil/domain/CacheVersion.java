@@ -5,12 +5,12 @@ import java.util.Date;
 /**
  * 
  * 
- * @date 2014-9-16
+ * @date 2019年3月23日
  * 
  * @author swf
- * 
+ *
  * @Description 缓存刷新版本
- * 
+ *
  */
 public class CacheVersion extends BaseModel {
 

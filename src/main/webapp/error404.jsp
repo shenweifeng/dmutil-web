@@ -16,7 +16,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
-	<script type="text/javascript" src="${ctxPath }/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="${ctxPath }/js/easyui/jquery.min.js"></script>
 
 </head>
 <body>

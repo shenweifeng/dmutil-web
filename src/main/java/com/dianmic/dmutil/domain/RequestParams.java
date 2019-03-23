@@ -3,14 +3,14 @@ package com.dianmic.dmutil.domain;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @date 2014-3-26
  * 
- * @class com.dianmic.sync.domain.RequestParams
+ * 
+ * @date 2019年3月23日
  * 
  * @author swf
- * 
+ *
  * @Description 请求数据
- * 
+ *
  */
 public class RequestParams extends BaseModel {
 

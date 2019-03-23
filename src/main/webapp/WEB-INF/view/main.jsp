@@ -16,16 +16,6 @@
 <script>
 	$(function() {
 
-		// 用户所使用的浏览器类型，默认IE
-		var userbrowser = 'msie';
-		if (!$.browser.msie) {
-			userbrowser = 'chrome';
-			if ($.browser.mozilla) {
-				userbrowser = 'mozilla';
-			}
-		}
-		$('#userbrowser').val(userbrowser);
-		
 		var data = [ {
 			id : 0,
 			text : '${title}',
@@ -186,7 +176,7 @@
 		// end of tab setting...
 
 		//查看图片
-		$(".img_view").live('click', function() {
+		$(".img_view").on('click', function() {
 			view_img('${ctxPath}',$(this).data('img'));
 		});
 		
@@ -199,7 +189,6 @@
 	<input type="hidden" id="screenHeight" value="" />
 	<input type="hidden" id="screenHeight360" value="" />
 	<input type="hidden" id="screenHeight300" value="" />
-	<input type="hidden" id="userbrowser" value="" />
 	<input type="hidden" id="peishouExist" value="0" />
 
 <div id="divNorth" region="north" border="false" style="height: 40px; background: #FFFFFF;">

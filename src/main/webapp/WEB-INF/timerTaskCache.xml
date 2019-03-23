@@ -11,7 +11,6 @@
 		<property name="jobDataAsMap">
 			<map>
 				<entry key="globalCache"><ref bean="globalCache"/></entry>
-				<entry key="alarmService"><ref bean="alarmService"/></entry>
 			</map>
 		</property>
 	</bean>

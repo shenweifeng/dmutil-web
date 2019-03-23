@@ -878,82 +878,6 @@ function createChartPie(chartPieDatas){
         }); 
 };
 
-/* 一级菜单点击事件 */
-function link_menu1(page){
-	$('#divWest').html('');
-	$('#divWest').load(page + '?_t=' + Math.random());
-};
-
-/* 二级菜单点击事件 */
-function link_menu2(title, url){
-	//$('#divCenter').panel('setTitle', title);
-	$('#divCenter').html('');
-	$('#divCenter').load(url + '?_t=' + Math.random());
-};
-
-function init_menu2(ctxPath){
-	$('.menu2_title_background').each(function(index,item){
-		var div = $(this).attr("title");
-		$("#"+div).removeClass("menu2_hide").addClass("menu2_show");
-		$("#"+div+"_icon").attr("src",ctxPath+"/css/img/gx/main/button_down.png");
-	});
-};
-
-function open_select_fwry(ctxPath,divId, divName){
-	openWindowRandom('【服务人员】',
-			ctxPath + '/common/select/fwry?divId='+divId+'&divName='+divName+'&_t='
-					+ Math.random(), 600, 350);
-};
-
-function open_select_location_province(ctxPath,divId, divName){
-	openWindowRandom('【选择省份】',
-			ctxPath + '/common/select/location/0/'+divId+'/'+divName+'?_t='
-					+ Math.random(), 600, 350);
-};
-function open_select_location_city(ctxPath,divId, divName, parentId){
-	if($("#"+parentId).val()==''){
-		tipscommon("省份不能为空！");
-		return false;
-	}
-	openWindowRandom('【选择城市】',
-			ctxPath + '/common/select/location/'+$("#"+parentId).val()+'/'+divId+'/'+divName+'?_t='
-					+ Math.random(), 600, 350);
-};
-function open_select_location_county(ctxPath,divId, divName, parentId){
-	if($("#"+parentId).val()==''){
-		tipscommon("城市不能为空！");
-		return false;
-	}
-	openWindowRandom('【选择区县】',
-			ctxPath + '/common/select/location/'+$("#"+parentId).val()+'/'+divId+'/'+divName+'?_t='
-					+ Math.random(), 600, 350);
-};
-
-function open_select_ipc(ctxPath,divId, divName){
-	openWindowRandom('【IPC设备】',
-			ctxPath + '/common/select/ipc/'+divId+'/'+divName+'?_t='
-					+ Math.random(), 600, 350);
-};
-
-function open_select_alarmtype(ctxPath,divId, divName){
-	openWindowRandom('【警情内容】',
-			ctxPath + '/common/select/alarmtype/'+divId+'/'+divName+'?_t='
-					+ Math.random(), 600, 350);
-};
-
-function open_select_alarmtypecode(ctxPath,divId, divName){
-	openWindowRandom('【警情代码】',
-			ctxPath + '/common/select/alarmtypecode/'+divId+'/'+divName+'?_t='
-					+ Math.random(), 600, 350);
-};
-
-// 选择流量卡，2014年8月19日21:37:39
-function open_select_llk(ctxPath,divId){
-	openWindowRandomFixed('【流量卡】',
-			ctxPath + '/common/select/llk/'+divId+'?_t='
-					+ Math.random(), 600, 350);
-};
-
 // 打开新窗口，2014年8月18日08:28:00
 function openWindowNew(title,url,_w,_h){
 	var w = 1000;
@@ -997,13 +921,6 @@ function createSelfWindowOnce(id,_w,_h){
 		}
 	}).window("center");
 } ;
-
-function open_select_splb(ctxPath,divId, divName){
-	openWindowRandom('【商品类别】',
-			ctxPath + '/public/select/splb/'+divId+'/'+divName+'?_t='
-					+ Math.random(), 600, 350);
-};
-
 
 
 /**
@@ -1116,13 +1033,7 @@ function createChartLineSeries(ynames, ydatas){
 	return series;
 };
 
-// 商品类别：选择
-selectProductTypePage = function(ctxPath, divId, divName){
-	openWindowRandom('选择商品类别',
-			'/company/admin/productTypeListForSelect.html?'
-			+'divName='+divName+'&divId='+divId+'&_t='
-			+ Math.random(), 400, 600);
-}
+
 
 /*
  * 压缩图片

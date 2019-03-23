@@ -35,10 +35,7 @@
 	<bean id="globalCache" lazy-init="false"
 		class="com.dianmic.dmutil.cache.GlobalCache" init-method="init" />
 
-	<!-- 数据源-alarm -->
-	<!-- <bean id="dataSource_main" class="org.springframework.jndi.JndiObjectFactoryBean"> 
-		<property name="jndiName" value="java:comp/env/jdbc/db_dmalarm_sdk" /> </bean> -->
-
+	<!-- 数据源 -->
 	<bean id="dataSource_main" class="org.apache.commons.dbcp2.BasicDataSource"
 		destroy-method="close">
 

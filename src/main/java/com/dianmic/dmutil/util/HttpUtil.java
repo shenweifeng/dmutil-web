@@ -3,7 +3,6 @@ package com.dianmic.dmutil.util;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +18,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import com.dianmic.dmutil.cache.GlobalCache;
-
 /**
  * 
  * 
@@ -28,7 +25,7 @@ import com.dianmic.dmutil.cache.GlobalCache;
  * 
  * @author swf
  * 
- * @Description
+ * @Description Http处理工具
  * 
  */
 public class HttpUtil {
@@ -102,33 +99,4 @@ public class HttpUtil {
         return result;
     }
 
-    public static void main(String[] args) {
-        Map<String, String> map = new HashMap<String, String>();
-        String subsystem = "门店";
-        String yhmc = "厦门点微信息";
-        String alarmContent = "布防";
-        String alarmType = "布撤防";
-        String alarmTime = "2019-3-22 23:27:27";
-        map.put("fromUserName", "oKgXhvuciX4tyoGj1c8o6CRCDgTg");
-        map.put("templateId", GlobalCache.weixin_message_templateId_buchefang);
-        map.put("shId", "1001");
-        map.put("alarmType", alarmType);
-        map.put("alarmTime", alarmTime);
-        if (Constant.alarmType_buchefang.equals(alarmType)) {
-            // 布撤防信息
-            if (StringUtil.isNotEmpty(subsystem)) {
-                map.put("first", String.format("%s, 已%s【%s】", yhmc, alarmContent, subsystem));
-            } else {
-                map.put("first", String.format("%s, 已%s", yhmc, alarmContent));
-            }
-        } else if (Constant.alarmType_jingqing.equals(alarmType)) {
-            // 警情信息
-            map.put("first", String.format("%s, 警情信息【%s】", yhmc, alarmContent));
-        } else {
-            map.put("first", String.format("%s, 您有一条消息通知", yhmc, alarmContent));
-        }
-        map.put("remark", "如有疑问，请联系客服！");
-        map.put("keywordList", String.format("%s,%s,%s", alarmType, alarmContent, alarmTime));
-        HttpUtil.postForm(Constant.api_weixin_sendMessageTemplate, map);
-    }
 }

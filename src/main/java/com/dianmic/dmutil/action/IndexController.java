@@ -27,9 +27,7 @@ import com.dianmic.dmutil.util.Constant;
 @Scope("prototype")
 public class IndexController extends BaseApiController {
 
-    Logger         log = Logger.getLogger(IndexController.class);
-
-    private String str;
+    Logger log = Logger.getLogger(IndexController.class);
 
     /**
      * 

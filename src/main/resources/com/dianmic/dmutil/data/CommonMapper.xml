@@ -3,74 +3,9 @@
 
 <mapper namespace="com.dianmic.dmutil.data.CommonMapper">
 
-	<select id="listAlarmTypeGx" resultType="AlarmTypeGx">
-		select `alarmCode`, `alarmType`, `alarmContent`, 
-		`auto`, `realAlarm`, `hasArea`
-		from `tb_dmalarm_alarm_type_gx`
-	</select>
-
-	<select id="listAlarmTypeJk" resultType="AlarmTypeJk">
-		select `jkCode`, `jkContent`, `gxCode`, `fqbh`, gxContent, 
-		auto, realAlarm, `hasArea`
-		from `tb_dmalarm_alarm_type_jk`
-	</select>
-
-	<select id="listCustomer" resultType="Customer">
-		select `id`, `yhbh`, `yhmc`
-		from `tb_dmalarm_customer`
-		where `status`=1
-	</select>
-
-	<select id="listSdkApp" resultType="SdkApp">
-		select `appId`, `appIp`
-		from `tb_dmalarm_sdk_app`
-		where `status`=1
-	</select>
-
 	<select id="listCacheVersion" resultType="CacheVersion">
 		select `cacheKey`, `cacheVersion`, `uptime`
-		from `tb_dmalarm_cache_version`
+		from `tb_cache_version`
 	</select>
-
-	<!-- 刷新缓存版本，2014年12月13日 16:59:23 -->
-	<update id="updateCacheVersion" parameterType="String">
-	    update tb_dmalarm_cache_version 
-	    set cacheVersion=UUID()
-	    where cacheKey=#{cacheKey}
-	</update>
-
-	<!-- 微信，2015年3月29日 22:12:40 -->
-	<select id="listWeixinBind" resultType="WeixinBind">
-		select `fromUserName`, `cuId`
-		from `tb_dmalarm_customer_weixin`
-	</select>
-
-	<!-- JK设备信息，2019年2月16日19:21:38 -->
-	<select id="listVideoJk" resultType="VideoJk">
-		select *
-		from `tb_dmalarm_video_jk`
-		where `status`=1 and cuId is not null
-	</select>
-        
-	<update id="updateVideoJk" parameterType="VideoJk">
-		UPDATE `tb_dmalarm_video_jk`
-		<set>
-			<if test="spss != null">spss=#{spss},</if>
-			<if test="splx != null">splx=#{splx},</if>
-			<if test="spsz != null">spsz=#{spsz},</if>
-			<if test="isonline != null">isonline=#{isonline},</if>
-			`uptime` = now()
-		</set>
-		WHERE `sbid` = #{sbid};
-	</update>
-
-	<!-- 服务器心跳表，2019年3月7日16:00:57 -->
-	<update id="updateServerHeartBeat" parameterType="ServerHeartBeat">
-	    update tb_dmalarm_heartbeat 
-	    set `clientIp`=#{clientIp}, 
-	    `clientTime`=#{clientTime}, 
-	    `serverTime`=#{serverTime}
-	    where serverId=#{serverId}
-	</update>
 	
 </mapper>

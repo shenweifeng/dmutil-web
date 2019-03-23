@@ -10,12 +10,12 @@ import com.dianmic.dmutil.util.StringUtil;
 /**
  * 
  * 
- * @date 2015-4-27
+ * @date 2019年3月23日
  * 
  * @author swf
- * 
- * @Description 通用模板，2015年4月27日 01:38:30
- * 
+ *
+ * @Description 通用模板
+ *
  */
 public class Template extends BaseModel {
 

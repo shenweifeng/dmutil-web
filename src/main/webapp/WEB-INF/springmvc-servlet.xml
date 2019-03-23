@@ -10,14 +10,11 @@
 	<mvc:annotation-driven />
 	
 	<mvc:resources mapping="/favicon.ico" location="/WEB-INF/image/favicon.ico" />
-	<mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
 
 	<mvc:resources mapping="/robots.txt" location="/WEB-INF/robots.txt" />
 	<mvc:resources mapping="/css/**" location="/WEB-INF/styles/css/" />
 	<mvc:resources mapping="/js/**" location="/WEB-INF/styles/js/" />
 	<mvc:resources mapping="/plugin/**" location="/WEB-INF/styles/plugin/" />
-	<mvc:resources mapping="/attached/**" location="/attached/" />
-	<mvc:resources mapping="/data/**" location="/WEB-INF/data/" />
 	
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">

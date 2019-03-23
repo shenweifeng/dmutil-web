@@ -4,9 +4,17 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * 配置文件的处理类. 用来处理诸如:coufigure.property之类的文件.
+ * 
+ * 
+ * @date 2019年3月23日
+ * 
+ * @author swf
+ *
+ * @Description 配置文件的处理类. 用来处理诸如:coufigure.property之类的文件.
+ *
  */
 public class FileProperties extends Properties {
+
     private static final long serialVersionUID = -8751721578625489508L;
 
     public FileProperties() {
@@ -18,9 +26,8 @@ public class FileProperties extends Properties {
             InputStream inputstream = getClass().getResourceAsStream(s);
             load(inputstream);
             inputstream.close();
-        } catch (Exception exception) {
-            // System.err.println("Exception in FileProperties(String): " +
-            // exception.toString() + " for filename=" + s);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

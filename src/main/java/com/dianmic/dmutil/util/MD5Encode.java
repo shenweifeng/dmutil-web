@@ -4,10 +4,13 @@ import java.security.MessageDigest;
 
 /**
  * 
- * 类说明:为密码字符串进行MD5加密
  * 
- * @author qiujy
- * @version v1.0 Oct 18, 2005
+ * @date 2019年3月23日
+ * 
+ * @author swf
+ *
+ * @Description MD5处理工具类
+ *
  */
 public class MD5Encode {
 

@@ -28,17 +28,18 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * @description excel操作工具类
+ * 
+ * 
+ * @date 2019年3月23日
+ * 
  * @author swf
- * @version 1.0
- * @Copyright (c) pcitc sys
- * @create 2012-9-20 9:05:51
+ *
+ * @Description Excel工具类
+ *
  */
 public class PoiUtil {
 
-    private static Log    log     = LogFactory.getLog(PoiUtil.class);
-
-    private static String charset = "utf-8";
+    private static Log log = LogFactory.getLog(PoiUtil.class);
 
     public static List<List<String>> read_xls(InputStream in) {
         List<List<String>> list = new ArrayList<List<String>>();
@@ -601,7 +602,7 @@ public class PoiUtil {
 
     // *************xlsx文件读取函数************************
     // 返回二维字符串数组
-    @SuppressWarnings({ "resource", "unused" })
+    @SuppressWarnings({ "unused" })
     public static List<List<String>> read_xlsx(InputStream is) {
         List<List<String>> ans = new ArrayList<List<String>>();
         try {
@@ -651,7 +652,6 @@ public class PoiUtil {
     }
 
     // 判断后缀为xlsx的excel文件的数据类
-    @SuppressWarnings("deprecation")
     private static String getValue(XSSFCell xssfRow) {
         if (xssfRow == null) {
             return "";

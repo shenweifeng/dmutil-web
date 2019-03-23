@@ -10,8 +10,17 @@ import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
+/**
+ * 
+ * 
+ * @date 2019年3月23日
+ * 
+ * @author swf
+ *
+ * @Description 日期工具类
+ *
+ */
 public class DateUtil {
-    // 以下2个方法madh添加
     /**
      * 两个日期的相减
      * 

@@ -10,6 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
+/**
+ * 
+ * 
+ * @date 2019年3月23日
+ * 
+ * @author swf
+ *
+ * @Description excel export
+ *
+ */
 public class ViewExcel extends AbstractExcelView {
 
     @Override

@@ -12,6 +12,7 @@ import org.dom4j.Element;
 public class XmlUtil {
     static Logger log = Logger.getLogger(XmlUtil.class);
 
+    @SuppressWarnings("unchecked")
     public static Map<String, Object> getMap(String xml) {
         Document doc = null;
         Map<String, Object> map = null;

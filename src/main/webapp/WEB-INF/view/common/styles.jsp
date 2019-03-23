@@ -11,25 +11,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <c:set var="ctxPath" scope="request" value="${pageContext.request.contextPath}" />
-<c:set var="dmagent_vesion" scope="request" value="v1.3.6" />
+<c:set var="dmutil_vesion" scope="request" value="v1.0.0" />
 
-<link rel="stylesheet" type="text/css" href="${ctxPath }/css/main.css?v=${dmagent_vesion}">
+<link rel="stylesheet" type="text/css" href="${ctxPath }/css/main.css?v=${dmutil_vesion}">
 
 <link rel="stylesheet" type="text/css" href="${ctxPath }/css/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="${ctxPath }/css/easyui/themes/icon.css?v=${dmagent_vesion}">
-<script type="text/javascript" src="${ctxPath }/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="${ctxPath }/js/jquery.easyui.min.js"></script>
-<!-- easyui 国际化,多语言包加载 -->
-<script type="text/javascript" src="${ctxPath }/js/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="${ctxPath }/js/easyui-window-ext.js"></script>
-<script type="text/javascript" src="${ctxPath }/js/main.js?v=${dmagent_vesion}"></script>
+<link rel="stylesheet" type="text/css" href="${ctxPath }/css/easyui/themes/icon.css?v=${dmutil_vesion}">
+<script type="text/javascript" src="${ctxPath }/js/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="${ctxPath }/js/easyui/jquery.easyui.min.js"></script>
 
-<script type="text/javascript" src="${ctxPath }/js/pth_util.js?v=${dmagent_vesion}"></script>
+<script type="text/javascript" src="${ctxPath }/js/main.js?v=${dmutil_vesion}"></script>
 
 <script type="text/javascript" src="${ctxPath }/js/jquery.cookie.js"></script>
 
 <script type="text/javascript" src="${ctxPath }/js/jQueryRotate.js"></script>
 
+<!-- highcharts settings -->
 <script type="text/javascript" src="${ctxPath }/plugin/highcharts/highcharts.js"></script>
 <script type="text/javascript" src="${ctxPath }/plugin/highcharts/exporting.js"></script>
 <script type="text/javascript" src="${ctxPath }/plugin/highcharts/series-label.js"></script>

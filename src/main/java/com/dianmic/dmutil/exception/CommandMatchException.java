@@ -1,5 +1,15 @@
 package com.dianmic.dmutil.exception;
 
+/**
+ * 
+ * 
+ * @date 2019年3月23日
+ * 
+ * @author swf
+ *
+ * @Description Exception Model
+ *
+ */
 public class CommandMatchException extends Exception {
 
     private static final long serialVersionUID = -2603880946364222202L;

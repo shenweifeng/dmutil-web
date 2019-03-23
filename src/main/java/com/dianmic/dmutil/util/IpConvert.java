@@ -14,6 +14,16 @@ import org.apache.http.util.EntityUtils;
 
 import com.alibaba.fastjson.JSONObject;
 
+/**
+ * 
+ * 
+ * @date 2019年3月23日
+ * 
+ * @author swf
+ *
+ * @Description Ip获取工具
+ *
+ */
 public class IpConvert {
 
     public static JSONObject getLocation(String ip) {
@@ -52,12 +62,6 @@ public class IpConvert {
             return ret;
         }
         return null;
-    }
-
-    public static void main(String[] args) throws HttpException, IOException {
-        String url = "http://ip.taobao.com/service/getIpInfo.php?ip=120.76.98.216";
-        String html = getHtml(url, "utf-8");
-        System.out.println(html);
     }
 
 }

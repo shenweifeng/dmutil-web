@@ -45,14 +45,12 @@ import com.dianmic.dmutil.util.StringUtil;
 @Scope("prototype")
 public class UtilController extends BaseApiController {
 
-    Logger                       log               = Logger.getLogger(UtilController.class);
+    Logger                       log              = Logger.getLogger(UtilController.class);
 
-    private String               str;
-    private String               page_prefix       = "util/";
+    private String               page_prefix      = "util/";
 
-    private String               key_exe_map_dept  = "exe_map_dept";
-    private String               key_exe_map_shops = "exe_map_shops";
-    private Map<String, ExeDept> deptMap           = null;
+    private String               key_exe_map_dept = "exe_map_dept";
+    private Map<String, ExeDept> deptMap          = null;
 
     @RequestMapping(value = { "/excel.html" }, method = { RequestMethod.GET })
     public ModelAndView excel(HttpServletRequest request, HttpServletResponse response) {
@@ -60,6 +58,7 @@ public class UtilController extends BaseApiController {
         return mav;
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request,
             HttpServletResponse response) {
@@ -200,6 +199,7 @@ public class UtilController extends BaseApiController {
         return PoiUtil.export(title, datas, columnTitle);
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/excel/xls.do", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView excel_xls(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request,
             HttpServletResponse response) {
@@ -230,6 +230,7 @@ public class UtilController extends BaseApiController {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/excel/csv.do", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView excel_csv(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request,
             HttpServletResponse response) {
@@ -468,6 +469,7 @@ public class UtilController extends BaseApiController {
         return map;
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/import/shops.do", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
     public Map<String, Object> import_shops(@RequestParam("file") MultipartFile file, ModelMap model,

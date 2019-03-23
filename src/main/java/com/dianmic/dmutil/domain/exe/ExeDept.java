@@ -9,7 +9,7 @@ import com.dianmic.dmutil.domain.BaseModel;
  * 
  * @author swf
  *
- * @Description
+ * @Description Exe Dept Info
  *
  */
 public class ExeDept extends BaseModel {
