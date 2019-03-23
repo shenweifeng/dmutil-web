@@ -1,0 +1,67 @@
+html, body {
+	height: 100%;
+}
+.css_align_center {
+	font-size: 20px;
+	text-align: center;
+	line-height: 50px;
+}
+.css_color_green {
+	background-color: #00CC00;
+}
+.css_color_blue_text {
+	color: blue;
+	font-size: 14px;
+}
+.css_color_black_text {
+	color: black;
+	font-size: 14px;
+}
+.css_color_red_text {
+	color: red;
+	font-size: 14px;
+}
+.css_color_gray_text {
+	color: #c0c0c0;
+	font-size: 14px;
+}
+.css_color_orange_text {
+	color: #FFA500;
+	font-size: 14px;
+}
+.css_text_font_14 {
+	font-size: 14px;
+}
+.css_padding_left_5px{
+	padding-left: 5px;	
+	font-size: 14px;
+}
+
+.css_span_btn_red{
+	background-color: red; 
+	color: white; 
+	padding: 1px 5px;
+	font-size: 12px;
+	border: 1px solid red;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+.css_span_btn_green{
+	background-color: green; 
+	color: white; 
+	padding: 1px 5px;
+	font-size: 12px;
+	border: 1px solid green;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+.image_show{
+	color: blue;
+	cursor: hand;
+}
+.css_span_text_ellipsis{
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	display: inline-block;
+}

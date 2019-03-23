@@ -1,0 +1,136 @@
+/* 
+	新版UI样式
+    2014年6月30日08:03:55
+*/
+
+#head_left {
+	width: 580px;
+	height: 50px;
+	background-image:
+		url('img/gx/main/background_head_left.jpg');
+	float: left;
+}
+
+#head_right {
+	height: 50px;
+	background-image:
+		url('img/gx/main/background_head_right_x.jpg');
+	background-repeat: repeat-x;
+	text-align: right;
+	float: left;
+}
+
+#logo_left {
+	width: 581px;
+	height: 127px;
+	background-image:
+		url('img/gx/main/background_logo_left.jpg');
+	float: left;
+}
+
+#logo_right {
+	height: 127px;
+	background-image:
+		url('img/gx/main/background_logo_right_x.jpg');
+	background-repeat: repeat-x;
+	float: left;
+}
+#logo_right span {
+	display: inline-block;
+	float: right;
+	margin-right: 10px;
+	margin-top: 20px;
+}
+
+#menu_1 span {
+	display: inline-block;
+	margin-right: 20px;
+}
+#nav{
+	height: 32px;
+	background-image: url('img/gx/main/background_information_x.jpg');
+	background-repeat: repeat-x;
+	color: white;
+	float: left;
+	padding-top: 5px;
+}
+#nav #left{
+	padding-left: 50px;
+	float: left;
+	width: 30%;
+	text-align: left;
+}
+#nav #right{
+	padding-right: 50px;
+	float: left;
+	width: 60%;
+	text-align: right;
+}
+
+.body_style{
+	/* background-image: url('${ctxPath}/css/img/gx/main/background_information_x.jpg');
+	background-repeat: repeat; */
+	background-color: #2A7FB6;
+}
+
+.menu2_class_icon{
+	display: inline-block;
+	width: 6px;
+	padding-top: 5px;
+	padding-left: 50px;
+}
+.menu2_class_text{
+	display: inline-block;
+	color: #1E7DB7;
+	padding-top: 5px;
+}
+.menu2_class_background{
+	height: 32px;
+	background-image: url('img/gx/main/background_nav_left_2_x.jpg');
+	background-repeat: repeat-x;
+	float: left;
+	width: 200px;
+}
+#divWest ul li {
+	cursor: pointer;
+	list-style: none;
+}
+.menu2_title_background{
+	height: 36px;
+	background-image: url('img/gx/main/background_nav_left_1_x.jpg');
+	background-repeat: repeat-x;
+	float: left;
+	width: 200px;
+	cursor: pointer;
+}
+.menu2_title_icon{
+	display: inline-block;
+	width: 20px;
+	padding-top: 5px;
+	padding-left: 20px;
+	float: left;
+}
+.menu2_title_text{
+	display: inline-block;
+	color: #ffffff;
+	padding-top: 5px;
+	height: 22px;
+	float: left;
+	padding-left: 5px;
+	font-size: 1.2em;
+}
+.menu2_title_icon_right{
+	display: inline-block;
+	width: 20px;
+	padding-top: 5px;
+	padding-left: 5px;
+	float: left;
+}
+
+/* 二级菜单显示和隐藏样式 */
+.menu2_show{
+	text-align: left; overflow: hidden; display: inline-block;
+}
+.menu2_hide{
+	text-align: left; overflow: hidden; display: none;
+}

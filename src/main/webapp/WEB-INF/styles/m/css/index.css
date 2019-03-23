@@ -1,0 +1,281 @@
+html, body, div, p, a, form, label, input, span, ul, li, i, img, header, nav, footer, section, h3 {
+            margin: 0;
+            padding: 0;
+        }
+        ul, ul li {list-style: none;}
+        input {border: none;outline: none;}
+        ::-webkit-input-placeholder {color: rgb(160,160,160);}
+        ::-webkit-scrollbar {width: 0px;}
+        body {
+            font-family: "microsoft yahei", sans-serif;
+            font-size: 12px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            background-color: rgb(234,234,234);
+            overflow-x: hidden;
+        }
+        header {background-color: rgb(79,153,39);}
+        .page_index header > img {width: 100%;}
+        .i-container {
+            width: 100%;
+            background-color: rgb(255,255,255);
+        }
+        .i-line {
+            width: 96%;
+            margin: 0 auto;
+            padding-top: 2%;
+        }
+        .i-line > img {width: 49%;}
+        .i-line > img:last-child {float: right;}
+        .i-pro {
+            width: 100%;
+            margin: 0 auto;
+            display: -webkit-box;
+            background-color: rgb(255,255,255);
+            margin-top: 3%;
+        }
+        .pro-icon, .pro-text {width: 50%;  }
+        .pro-icon > img {
+            width: 94%;
+            padding: .12rem;
+        }
+        .pro-text {padding-left: .04rem;}
+        .pro-text > h3 {
+            color: rgb(102,174,52);
+            font-size: .32rem;
+            margin: .2rem 0;
+        }
+        .pro-text > p{
+            color: rgb(124,124,124);
+            font-size: .24rem;
+        }
+        .pro-price {
+            color: rgb(255,68,0);
+            font-size: .36rem;
+            margin-top: .24rem;
+            text-align: left;
+            position: relative;
+            left: -3px;
+        }
+        .pro-love {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            background: url(./../img/icon2.png) no-repeat;
+            background-size: 112px 54px;
+            background-position: -91px 2px;
+            position: absolute;
+            right: 6%;
+            top: 0;
+        }
+        /*nav*/
+        nav {
+            width: 100%;
+            height: .9rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 9;
+            background-color: rgb(255,255,255);
+        }
+        nav > ul {
+            display: -webkit-box;
+        }
+        .tab li {
+            -webkit-box-flex: 1;
+            text-align: center;
+            font-size: .24rem;
+            color: rgb(108,105,104);
+        }
+        .tab-icon {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: url(./../img/icon2.png) no-repeat;
+            background-size: 104px 50px;
+            position: relative;
+            top: 4px;
+        }
+        .tab-icon-home {background-position: 0px -26px;}
+        .tab-icon-fugui {background-position: -28px -26px;}
+        .tab-icon-reg {background-position: -56px -26px;}
+        /**/
+        .tab-active p {color: rgb(102,174,52);}
+        .tab-active .tab-icon-home {background-position: 0px 0px;}
+        .tab-active .tab-icon-fugui {background-position: -28px 1px;}
+        .tab-active .tab-icon-reg {background-position: -56px 1px;}
+        /*mask*/
+        .page_mask {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0,0,0,.8);
+            font-size: .4rem;
+            color: rgb(255,255,255);
+            z-index: 2;
+            display: none;
+        }
+        .page_mask > p{
+            width: 100%;
+            line-height: 30px;
+            height: 30px;
+            margin-top: 60%;
+            text-align: center;
+        }
+        /*reg*/
+        .page_reg {display: none;}
+        .line_item {
+            width: 86%;
+            margin: 0 auto;
+            padding: 20px 0 20px 20px;
+            position: relative;
+            display: -webkit-box;
+            -webkit-box-align: center;
+        }
+        .line_item:after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: rgb(160,160,160);
+            -webkit-transform: scaleY(.5);
+            transform: scaleY(.5);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 2;
+        }
+        form .line_item:last-child:after, .item_submit .line_item:after {
+            content: '';
+            visibility: hidden;
+        }
+        .page_reg > form {
+            border-bottom: 1px solid rgb(210, 209, 209);
+            background-color: rgb(255,255,255);
+        }
+        .item_needed {position: relative;}
+        .item_needed:after {
+            content: '*';
+            position: absolute;
+            left: -20px;
+            height: 0;
+            top: -2px;
+            color: rgb(235,97,0);
+            font-size: 22px;
+        }
+        .item_icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 2%;
+            background: url(./../img/icons.png) no-repeat;
+            background-size: 110px 41px;
+        }
+        .item_icon_phone {background-position: 0 0;}
+        .item_icon_msg {background-position: -23px 0;}
+        .item_icon_psw1 {background-position: -45px 0;}
+        .item_icon_psw2 {background-position: -68px 0;}
+        .item_icon_phone2 {background-position: -91px 0;}
+        .line_item input {
+            width: 140%;
+            line-height: 22px;
+            color: rgb(160,160,160);
+            padding-left: 4px;
+            font-size: 14px;
+        }
+        .item_icon_check {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            background-position: 0 -22px;
+        }
+        .icon_checked {
+            width: 20px;
+            height: 20px;
+            background: url(./../img/icons.png) no-repeat;
+            background-size: 110px 41px;
+            background-position: -21px -22px;
+            position: absolute;
+            top: 5px;
+            left: -2px;
+        }
+        .item_submit {text-align: center;}
+        .protocol_detail {
+            color: rgb(34,68,48);
+            font-size: 14px;
+            text-decoration: underline;
+        }
+        .item_submit .line_item {
+    		padding: 10px 0 0 20px;
+		}
+        .btn_reg {
+            display: inline-block;
+            width: 86%;
+            margin-top: 16px;
+            line-height: 35px;
+            background-color: rgb(0,48,19);
+            color: rgb(255,255,255);
+            font-size: 16px;
+            text-decoration: none;
+            letter-spacing: 10px;
+            border-radius: 3px;
+        }
+        .line_item .code_area {width: 50%;}
+        .get_code {
+            display: inline-block;
+            width: 36%;
+            text-align: center;
+            background-color: rgb(128,194,105);
+            color: rgb(255,255,255);
+            font-size: 13px;
+            padding: 3px 0;
+            margin-bottom: 4%;
+            border-radius: 3px;
+            position: absolute;
+            right: 8%;
+        }
+        /* result */
+        .page_result {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            text-align: center;
+            background: -webkit-radial-gradient(rgb(13,65,19),rgb(6,27,12));
+            /* background-image: url("./../img/r-04.png"); */
+            background-repeat: repeat;
+        }
+        .r-logo {
+        	width: 68%;
+    		margin-top: 8%;
+        }
+		.r-img {
+		    width: 86%;
+    		margin-top: 6%;
+		}
+        .r-banner {
+        	width: 94%;
+        	position: absolute;
+        	bottom: 12%;
+        	left: 3%;
+        }
+        /* 矮胖小屏手机适配 */
+        @media all and (max-height: 520px) and (min-width: 321px ) {
+        	.i-pro {margin-bottom: 20%;}
+        	.r-banner {bottom: 6%;}
+        }
+        /* iphone4 */
+        @media all and (max-height: 480px) and (max-width: 321px ) {
+        	.i-pro {margin-bottom: 18%;}
+        	.item_submit {padding-bottom: 18%;}
+			 .r-banner {bottom: 6%;}
+        }

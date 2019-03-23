@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="refreshCacheJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass">
+			<value> com.dianmic.dmutil.job.RefreshCacheJob </value>
+		</property>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="globalCache"><ref bean="globalCache"/></entry>
+				<entry key="alarmService"><ref bean="alarmService"/></entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="refreshCacheTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="refreshCacheJob" />
+		</property>
+		<property name="cronExpression">
+		    <!-- 每分钟执行一次 -->
+			 <value>0 0/1 * * * ?</value>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="refreshCacheTrigger" />
+			</list>
+		</property>
+	</bean>
+
+
+
+</beans>
