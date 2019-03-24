@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dianmic.dmutil.domain.ViewExcel;
 import com.dianmic.dmutil.domain.exe.ExeDept;
+import com.dianmic.dmutil.domain.exe.SwDept;
 import com.dianmic.dmutil.util.PoiUtil;
 import com.dianmic.dmutil.util.StringUtil;
 
@@ -45,16 +46,26 @@ import com.dianmic.dmutil.util.StringUtil;
 @Scope("prototype")
 public class UtilController extends BaseApiController {
 
-    Logger                       log              = Logger.getLogger(UtilController.class);
+    Logger                       log                     = Logger.getLogger(UtilController.class);
 
-    private String               page_prefix      = "util/";
+    private String               page_prefix             = "util/";
 
-    private String               key_exe_map_dept = "exe_map_dept";
-    private Map<String, ExeDept> deptMap          = null;
+    private String               key_exe_map_dept        = "exe_map_dept";
+    private String               key_exe_map_dept_sw     = "exe_map_dept_sw";
+    private String               key_exe_map_dept_len_sw = "exe_map_dept_len_sw";
+    private Map<String, ExeDept> deptMap                 = null;
+    private Map<String, SwDept>  swDeptMap               = null;
+    private int                  pathLength              = 0;
 
-    @RequestMapping(value = { "/excel.html" }, method = { RequestMethod.GET })
-    public ModelAndView excel(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView(page_prefix + "excel");
+    @RequestMapping(value = { "/anta.html" }, method = { RequestMethod.GET })
+    public ModelAndView anta(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView(page_prefix + "anta");
+        return mav;
+    }
+
+    @RequestMapping(value = { "/sw.html" }, method = { RequestMethod.GET })
+    public ModelAndView sw(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView(page_prefix + "sw");
         return mav;
     }
 
@@ -64,11 +75,12 @@ public class UtilController extends BaseApiController {
             HttpServletResponse response) {
         if (file != null && file.getSize() > 0) {
             try {
-                List<List<String>> list = PoiUtil.read_xlsx(file.getInputStream());
+                List<List<String>> list = PoiUtil.read_xlsx(file.getInputStream(), 0);
                 if (list != null && !list.isEmpty()) {
                     // 总条数
                     String title = file.getOriginalFilename();
                     title = title.substring(0, title.indexOf(".xlsx"));
+                    log.info(String.format("[xlsx导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
                     deptMap = (Map<String, ExeDept>) request.getSession().getAttribute(key_exe_map_dept);
                     HSSFWorkbook workbook = dealExcel(list, title);
                     // log.info(title);
@@ -210,6 +222,7 @@ public class UtilController extends BaseApiController {
                     // 总条数
                     String title = file.getOriginalFilename();
                     title = title.substring(0, title.indexOf(".xls"));
+                    log.info(String.format("[xls导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
                     deptMap = (Map<String, ExeDept>) request.getSession().getAttribute(key_exe_map_dept);
                     HSSFWorkbook workbook = dealExcel(list, title);
                     // log.info(title);
@@ -242,6 +255,7 @@ public class UtilController extends BaseApiController {
                     List<String> datas = dealCsv(list);
                     String title = file.getOriginalFilename();
                     title = title.substring(0, title.indexOf(".csv"));
+                    log.info(String.format("[cvs导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
                     PrintWriter p = null;
                     try {
                         // 处理中文文件名
@@ -383,7 +397,7 @@ public class UtilController extends BaseApiController {
                 if (title.endsWith(".xlsx")) {
                     // 执行 xlsx
                     title = title.substring(0, title.indexOf(".xlsx"));
-                    list = PoiUtil.read_xlsx(file.getInputStream());
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 0);
                 } else if (title.endsWith(".csv")) {
                     // 执行 csv
                     title = title.substring(0, title.indexOf(".csv"));
@@ -395,6 +409,7 @@ public class UtilController extends BaseApiController {
                     request.getSession().setAttribute(key_exe_map_dept, map);
                     ret.put("d1", String.format("导入部门数【%s】", map.size()));
                     r1 = 200;
+                    log.info(ret.get("d1"));
                 }
             } catch (IOException e) {
             }
@@ -484,7 +499,7 @@ public class UtilController extends BaseApiController {
                 if (title.endsWith(".xlsx")) {
                     // 执行 xlsx
                     title = title.substring(0, title.indexOf(".xlsx"));
-                    list = PoiUtil.read_xlsx(file.getInputStream());
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 0);
                 } else if (title.endsWith(".csv")) {
                     // 执行 csv
                     title = title.substring(0, title.indexOf(".csv"));
@@ -504,6 +519,7 @@ public class UtilController extends BaseApiController {
                     request.getSession().setAttribute(key_exe_map_dept, map);
                     ret.put("d1", String.format("导入门店数【%s】", map.size()));
                     r1 = 200;
+                    log.info(ret.get("d1"));
                 }
             } catch (IOException e) {
             }
@@ -614,9 +630,212 @@ public class UtilController extends BaseApiController {
         return map;
     }
 
-    @RequestMapping(value = { "/jk.html" }, method = { RequestMethod.GET })
-    public ModelAndView jk(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView(page_prefix + "jk");
-        return mav;
+    @RequestMapping(value = "/sw/import/dept.do", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public Map<String, Object> sw_import_dept(@RequestParam("file") MultipartFile file, ModelMap model,
+            HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> ret = new HashMap<String, Object>();
+        int r1 = 600;
+        if (file != null && file.getSize() > 0) {
+            try {
+                List<List<String>> list = new ArrayList<List<String>>();
+                // 总条数
+                String title = file.getOriginalFilename();
+                if (title.endsWith(".xlsx")) {
+                    // 执行 xlsx
+                    title = title.substring(0, title.indexOf(".xlsx"));
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 1);
+                }
+
+                if (list != null && !list.isEmpty()) {
+                    Map<String, SwDept> map = read_dept_sw(list);
+                    request.getSession().setAttribute(key_exe_map_dept_sw, map);
+                    request.getSession().setAttribute(key_exe_map_dept_len_sw, pathLength);
+                    ret.put("d1", String.format("导入部门数【%s】", map.size()));
+                    r1 = 200;
+                    log.info(ret.get("d1"));
+                }
+            } catch (IOException e) {
+            }
+        }
+        ret.put("r1", r1);
+        return ret;
+    }
+
+    private Map<String, SwDept> read_dept_sw(List<List<String>> list) {
+        SwDept sd = null;
+        if (swDeptMap == null) {
+            swDeptMap = new HashMap<String, SwDept>();
+        }
+        if (list != null && !list.isEmpty()) {
+            for (List<String> s : list) {
+                if (s.size() < 4) {
+                    log.error(String.format("[非法数据], [%s], [%s]", s.get(0), s.get(1)));
+                    continue;
+                }
+                sd = new SwDept(s.get(0), s.get(1));
+                if (StringUtil.isNotEmpty(s.get(2))) {
+                    sd.setParentDeptNo(s.get(2));
+                }
+                swDeptMap.put(sd.getDeptNo(), sd);
+            }
+            formatDept_sw();
+        }
+
+        return swDeptMap;
+    }
+
+    private void formatDept_sw() {
+        Map<String, SwDept> map = new HashMap<String, SwDept>();
+        SwDept sd = null;
+        int level = 0;
+        String path = null;
+        SwDept parent = null;
+        for (String s : swDeptMap.keySet()) {
+            sd = swDeptMap.get(s);
+            if (sd.getParentDeptNo() == null) {
+                // root节点
+                sd.setLevel(0);
+                sd.setPath(sd.getDeptNo());
+                map.put(s, sd);
+                continue;
+            }
+
+            if (map.containsKey(sd.getParentDeptNo())) {
+                parent = map.get(sd.getParentDeptNo());
+                sd.setLevel(parent.getLevel() + 1);
+                sd.setPath(String.format("%s.%s", parent.getPath(), sd.getDeptNo()));
+                map.put(s, sd);
+
+                if (pathLength < sd.getLevel()) {
+                    pathLength = sd.getLevel();
+                }
+
+                continue;
+            }
+
+            level = 1;
+            path = sd.getDeptNo();
+            parent = swDeptMap.get(sd.getParentDeptNo());
+            while (parent != null) {
+                ++level;
+                path = String.format("%s.%s", parent.getDeptNo(), path);
+                if (parent.getParentDeptNo() == null) {
+                    break;
+                }
+                parent = swDeptMap.get(parent.getParentDeptNo());
+            }
+            sd.setLevel(level);
+            sd.setPath(path);
+            map.put(s, sd);
+
+            if (pathLength < sd.getLevel()) {
+                pathLength = sd.getLevel();
+            }
+        }
+
+        swDeptMap.clear();
+        swDeptMap.putAll(map);
+    }
+
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value = "/sw/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView sw_excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model,
+            HttpServletRequest request, HttpServletResponse response) {
+        if (file != null && file.getSize() > 0) {
+            try {
+
+                List<List<String>> list = new ArrayList<List<String>>();
+                // 总条数
+                String title = file.getOriginalFilename();
+                if (title.endsWith(".xlsx")) {
+                    // 执行 xlsx
+                    title = title.substring(0, title.indexOf(".xlsx"));
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 1);
+                }
+                if (list != null && !list.isEmpty()) {
+                    // 总条数
+                    log.info(String.format("[sw_excel_xlsx导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
+                    swDeptMap = (Map<String, SwDept>) request.getSession().getAttribute(key_exe_map_dept_sw);
+                    pathLength = (Integer) request.getSession().getAttribute(key_exe_map_dept_len_sw);
+                    HSSFWorkbook workbook = dealExcelSw(list, title);
+                    // log.info(title);
+                    ViewExcel viewExcel = new ViewExcel();
+                    Map<String, Object> params = new HashMap<String, Object>();
+                    params.put("fileName", title);
+                    try {
+                        viewExcel.buildExcelDocument(params, workbook, request, response);
+                    } catch (Exception e) {
+                        log.error("[sw_excel_xlsx]导出异常：" + e.getMessage(), e.getCause());
+                    }
+                    return new ModelAndView(viewExcel, model);
+
+                }
+            } catch (IOException e) {
+            }
+        }
+        return null;
+    }
+
+    private HSSFWorkbook dealExcelSw(List<List<String>> list, String title) {
+
+        List<Integer> columnWidth = new ArrayList<Integer>();
+        List<String> columnTitle = new ArrayList<String>();
+
+        int data_len = list.size();
+
+        List<String> colNames = list.get(0);
+        int col_len = colNames.size();
+        for (int i = 0; i < col_len; i++) {
+            columnTitle.add(colNames.get(i));
+            columnWidth.add(15);
+        }
+        for (int j = 1; j <= pathLength; j++) {
+            columnTitle.add(String.format("部门%s", j));
+            columnWidth.add(15);
+        }
+        col_len = columnTitle.size();
+
+        // 新数据集合
+        List<String[]> datasWrite = new ArrayList<String[]>();
+        String[] newData = null;
+
+        List<List<String>> datas = new ArrayList<List<String>>();
+        int size = list.size();
+        List<String> temp = null;
+        String path = null;
+        String[] paths = null;
+        for (int i = 1; i < size; i++) {
+            // 序号 部门 部门名称
+            // 职位 岗位 人员 姓名 有效状态 最近登录时间 累计启动次数 日均启动次数 累计在线时长 日均在线时长 页面活跃量
+            // 单次页面访问量
+            temp = list.get(i);
+            if (!swDeptMap.containsKey(temp.get(1))) {
+                // 没有部门数据
+                datas.add(temp);
+                System.out.println("error:" + temp);
+                continue;
+            }
+            // 有部门数据
+            path = swDeptMap.get(temp.get(1)).getPath();
+            paths = path.split("\\.");
+            for (String p : paths) {
+                temp.add(swDeptMap.get(p).getDeptName());
+            }
+            datas.add(temp);
+        }
+        for (List<String> s : datas) {
+            newData = new String[col_len];
+            for (int i = 0; i < col_len; i++) {
+                if (i < s.size()) {
+                    newData[i] = s.get(i);
+                } else {
+                    newData[i] = "";
+                }
+            }
+            datasWrite.add(newData);
+        }
+
+        return PoiUtil.export(title, datasWrite, columnTitle);
     }
 }

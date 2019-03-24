@@ -20,8 +20,8 @@
 	<!-- 数据源-共信 -->
 	<context:component-scan base-package="com.dianmic.dmutil.data" />
 
-	<!-- 刷新缓存数据 -->
-	<import resource="/timerTaskCache.xml" />
+	<!-- 刷新缓存数据，暂时关闭，未使用状态，debug -->
+	<!-- <import resource="/timerTaskCache.xml" /> -->
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
