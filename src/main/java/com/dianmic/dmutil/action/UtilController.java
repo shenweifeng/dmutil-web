@@ -69,6 +69,7 @@ public class UtilController extends BaseApiController {
                     // 总条数
                     String title = file.getOriginalFilename();
                     title = title.substring(0, title.indexOf(".xlsx"));
+                    log.info(String.format("[xlsx导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
                     deptMap = (Map<String, ExeDept>) request.getSession().getAttribute(key_exe_map_dept);
                     HSSFWorkbook workbook = dealExcel(list, title);
                     // log.info(title);
@@ -210,6 +211,7 @@ public class UtilController extends BaseApiController {
                     // 总条数
                     String title = file.getOriginalFilename();
                     title = title.substring(0, title.indexOf(".xls"));
+                    log.info(String.format("[xls导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
                     deptMap = (Map<String, ExeDept>) request.getSession().getAttribute(key_exe_map_dept);
                     HSSFWorkbook workbook = dealExcel(list, title);
                     // log.info(title);
@@ -242,6 +244,7 @@ public class UtilController extends BaseApiController {
                     List<String> datas = dealCsv(list);
                     String title = file.getOriginalFilename();
                     title = title.substring(0, title.indexOf(".csv"));
+                    log.info(String.format("[cvs导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
                     PrintWriter p = null;
                     try {
                         // 处理中文文件名
@@ -395,6 +398,7 @@ public class UtilController extends BaseApiController {
                     request.getSession().setAttribute(key_exe_map_dept, map);
                     ret.put("d1", String.format("导入部门数【%s】", map.size()));
                     r1 = 200;
+                    log.info(ret.get("d1"));
                 }
             } catch (IOException e) {
             }
@@ -504,6 +508,7 @@ public class UtilController extends BaseApiController {
                     request.getSession().setAttribute(key_exe_map_dept, map);
                     ret.put("d1", String.format("导入门店数【%s】", map.size()));
                     r1 = 200;
+                    log.info(ret.get("d1"));
                 }
             } catch (IOException e) {
             }
