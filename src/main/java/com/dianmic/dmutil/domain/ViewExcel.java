@@ -32,8 +32,10 @@ public class ViewExcel extends AbstractExcelView {
             // 处理中文文件名
             fileName = URLEncoder.encode(fileName, "UTF-8");
         }
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setHeader("Content-disposition",
+                "attachment;filename=" + new String(fileName.getBytes("utf-8"), "iso8859-1") + ".xls");
+
         OutputStream ouputStream = response.getOutputStream();
         workbook.write(ouputStream);
         ouputStream.flush();

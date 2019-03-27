@@ -335,7 +335,7 @@ public class PoiUtil {
         return font;
     }
 
-    private static HSSFCellStyle createStyle(HSSFWorkbook wb, HSSFFont font, boolean border) {
+    private static HSSFCellStyle createStyleContent(HSSFWorkbook wb, HSSFFont font, boolean border) {
         // 创建单元格样式
         HSSFCellStyle style = wb.createCellStyle();
         style.setWrapText(true);
@@ -603,7 +603,7 @@ public class PoiUtil {
     // *************xlsx文件读取函数************************
     // 返回二维字符串数组
     @SuppressWarnings({ "unused" })
-    public static List<List<String>> read_xlsx(InputStream is) {
+    public static List<List<String>> read_xlsx(InputStream is, int rowStart) {
         List<List<String>> ans = new ArrayList<List<String>>();
         try {
             if (is == null || is.available() < 1) {
@@ -631,7 +631,7 @@ public class PoiUtil {
             // 获取总列数
             int col_len = xssfSheet.getRow(0).getPhysicalNumberOfCells();
             // 对于每个sheet，读取其中的每一行
-            for (int rowNum = 0; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
+            for (int rowNum = rowStart; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
                 XSSFRow xssfRow = xssfSheet.getRow(rowNum);
                 if (xssfRow == null)
                     continue;

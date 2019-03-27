@@ -25,18 +25,26 @@
 				text : '拆分工具',
 				state : 'open',
 				children : [{
-					id : 1001,
-					text : '部门拆分',
-					attributes : {
-						url : '${ctxPath }/util/excel.html'
-					}
-				}/* ,{
-					id : 1002,
-					text : 'JK测试',
-					attributes : {
-						url : '${ctxPath }/util/jk.html'
-					}
-				} */]
+					id : 101,
+					text : '安踏',
+					children : [{
+						id : 10101,
+						text : '安踏-部门拆分',
+						attributes : {
+							url : '${ctxPath }/util/anta.html'
+						}
+					}]
+				},{
+					id : 102,
+					text : '七匹狼',
+					children : [{
+						id : 10201,
+						text : '七匹狼-部门拆分',
+						attributes : {
+							url : '${ctxPath }/util/sw.html'
+						}
+					}]
+				}]
 			}]
 		} ];
 
@@ -71,8 +79,8 @@
 				},
 				onLoadSuccess : function(node, data) {
 					// 默认选择“身份证审核”
-					var node = $('#tree_left').tree('find', 1001);
-					$('#tree_left').tree('select', node.target);
+					//var node = $('#tree_left').tree('find', 1001);
+					//$('#tree_left').tree('select', node.target);
 				}
 			});
 		};
