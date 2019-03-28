@@ -751,7 +751,7 @@ public class UtilController extends BaseApiController {
                 if (title.endsWith(".xlsx")) {
                     // 执行 xlsx
                     title = title.substring(0, title.indexOf(".xlsx"));
-                    list = PoiUtil.read_xlsx(file.getInputStream(), 1);
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 0);
                 }
                 if (list != null && !list.isEmpty()) {
                     // 总条数
