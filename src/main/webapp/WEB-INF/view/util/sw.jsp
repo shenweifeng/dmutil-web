@@ -63,8 +63,10 @@
 	
 	<div id="util_sw_div_02">
 		<div style="padding: 20px; color: red;">
-		Tips：第2行为标题行，第3行开始为数据行，且只读取第1个sheet数据！</div>
-		
+		Tips：第1行为标题行，第2行开始为数据行，且只读取第1个sheet数据！<br/>
+		Tips：如果第1行为非标题行，需要删除第1行，不然数据读取会出错！
+		</div>
+				
 		<div style="padding: 20px;">
 			<form id="form1" action="${ctxPath }/util/sw/excel/xlsx.do" method="post" 
 			enctype="multipart/form-data">
