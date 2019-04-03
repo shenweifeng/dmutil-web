@@ -768,9 +768,25 @@ public class UtilController extends BaseApiController {
         swDeptMap.putAll(map);
     }
 
+    /**
+     * 
+     * @date 2019年4月3日 下午12:24:42
+     * 
+     * @author swf
+     * 
+     * @Description
+     * 
+     * @param file
+     * @param deptNoColumnName
+     *            部门所在列名称
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/sw/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView sw_excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model,
+    public ModelAndView sw_excel_xlsx(@RequestParam("file") MultipartFile file, String deptNoColumnName, ModelMap model,
             HttpServletRequest request, HttpServletResponse response) {
         if (file != null && file.getSize() > 0) {
             try {
@@ -788,7 +804,7 @@ public class UtilController extends BaseApiController {
                     log.info(String.format("[sw_excel_xlsx导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
                     swDeptMap = (Map<String, SwDept>) request.getSession().getAttribute(key_exe_map_dept_sw);
                     pathLength = (Integer) request.getSession().getAttribute(key_exe_map_dept_len_sw);
-                    HSSFWorkbook workbook = dealExcelSw(list, title);
+                    HSSFWorkbook workbook = dealExcelSw(list, title, deptNoColumnName);
                     // log.info(title);
                     ViewExcel viewExcel = new ViewExcel();
                     Map<String, Object> params = new HashMap<String, Object>();
@@ -807,17 +823,32 @@ public class UtilController extends BaseApiController {
         return null;
     }
 
-    private HSSFWorkbook dealExcelSw(List<List<String>> list, String title) {
+    private HSSFWorkbook dealExcelSw(List<List<String>> list, String title, String deptNoColumnName) {
 
         List<Integer> columnWidth = new ArrayList<Integer>();
         List<String> columnTitle = new ArrayList<String>();
 
         List<String> colNames = list.get(0);
         int col_len = colNames.size();
+        // 部门编号所在列索引值，2019年4月3日12:26:28
+        int deptNoColumnIndex = -1;
+        Set<String> deptNoColumnNameSet = new HashSet<String>();
+        if (StringUtil.isNotEmpty(deptNoColumnName)) {
+            deptNoColumnName = deptNoColumnName.trim().replaceAll("，", ",").replaceAll("、", ",");
+            String[] s = deptNoColumnName.split(",");
+            for (String s1 : s) {
+                deptNoColumnNameSet.add(s1);
+            }
+        }
         for (int i = 0; i < col_len; i++) {
             columnTitle.add(colNames.get(i));
             columnWidth.add(15);
+            if (StringUtil.isNotEmpty(colNames.get(i)) && deptNoColumnName.contains(colNames.get(i).trim())) {
+                deptNoColumnIndex = i;
+            }
         }
+        log.info(String.format("部门编号所在列索引值=[%s]", deptNoColumnIndex));
+
         for (int j = 1; j <= pathLength; j++) {
             columnTitle.add(String.format("部门%s", j));
             columnWidth.add(15);
@@ -838,14 +869,14 @@ public class UtilController extends BaseApiController {
             // 职位 岗位 人员 姓名 有效状态 最近登录时间 累计启动次数 日均启动次数 累计在线时长 日均在线时长 页面活跃量
             // 单次页面访问量
             temp = list.get(i);
-            if (!swDeptMap.containsKey(temp.get(1))) {
+            if (deptNoColumnIndex < 0 || !swDeptMap.containsKey(temp.get(deptNoColumnIndex))) {
                 // 没有部门数据
                 datas.add(temp);
-                log.error("error:" + temp);
+                System.out.println("error:" + temp);
                 continue;
             }
             // 有部门数据
-            path = swDeptMap.get(temp.get(1)).getPath();
+            path = swDeptMap.get(temp.get(deptNoColumnIndex)).getPath();
             paths = path.split("\\.");
             for (String p : paths) {
                 temp.add(swDeptMap.get(p).getDeptName());

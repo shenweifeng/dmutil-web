@@ -8,6 +8,13 @@
 
 <style>
 <!--
+#util_sw_layout_01_right_bottom>ul>li>span 
+{
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+}
+
 .input_250 {
 	display: inline-block;
 	width: 310px;
@@ -57,12 +64,18 @@
 	<div id="util_sw_div_02">
 		<div style="padding: 20px; color: red;">
 		Tips：第1行为标题行，第2行开始为数据行，且只读取第1个sheet数据！<br/>
-		Tips：如果第1行为非标题行，需要删除第1行，不然数据读取会出错！
+		Tips：如果第1行为非标题行，需要删除第1行，不然数据读取会出错！<br/>
+		Tips：如果部门编号所在列有其他命名，可以输入更新！<br/>
 		</div>
-		
+				
 		<div style="padding: 20px;">
 			<form id="form1" action="${ctxPath }/util/sw/excel/xlsx.do" method="post" 
 			enctype="multipart/form-data">
+			
+			<div style="padding-bottom: 20px;">
+			部门编号所在列-名称：<input type="text" id="deptNoColumnName" name="deptNoColumnName" value="部门，部门编号" style="width: 300px;"/>
+			</div>
+			
 			选择文件【<span class="color_red">.xlsx</span>】
 			<input type="file" name="file" id="file01"/>
 			<a
