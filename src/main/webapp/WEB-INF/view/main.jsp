@@ -41,7 +41,17 @@
 						id : 10201,
 						text : '七匹狼-部门拆分',
 						attributes : {
-							url : '${ctxPath }/util/sw.html'
+							url : '${ctxPath }/Util/sw.html'
+						}
+					}]
+				},{
+					id : 103,
+					text : '点微',
+					children : [{
+						id : 10301,
+						text : 'websocket',
+						attributes : {
+							url : '${ctxPath }/util/ws.html'
 						}
 					}]
 				}]
@@ -220,7 +230,7 @@
 </div>
 
 	<div id="divWest" region="west" split="true"
-		style="width: 200px; padding-left: 5px; padding-top: 5px; text-align: left;">
+		style="width: 250px; padding-left: 5px; padding-top: 5px; text-align: left;">
 		<div id="globalTips"></div>
 		<ul  id="tree_left"></ul>
 	</div>

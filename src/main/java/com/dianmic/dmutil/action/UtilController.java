@@ -25,11 +25,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dianmic.dmutil.domain.ViewExcel;
 import com.dianmic.dmutil.domain.exe.ExeDept;
 import com.dianmic.dmutil.domain.exe.SwDept;
+import com.dianmic.dmutil.netty.WebsocketConstant;
 import com.dianmic.dmutil.util.PoiUtil;
 import com.dianmic.dmutil.util.StringUtil;
+
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 /**
  * 
@@ -56,6 +60,32 @@ public class UtilController extends BaseApiController {
     private Map<String, ExeDept> deptMap                 = null;
     private Map<String, SwDept>  swDeptMap               = null;
     private int                  pathLength              = 0;
+
+    @RequestMapping(value = { "/ws.html" }, method = { RequestMethod.GET })
+    public ModelAndView ws(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("ws");
+        return mav;
+    }
+
+    @RequestMapping(value = "/ws/push", method = { RequestMethod.GET, RequestMethod.POST })
+    @ResponseBody
+    public Map<String, Object> ws_push(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> ret = new HashMap<String, Object>();
+        ret.put("r1", 200);
+        ret.put("d1", StringUtil.getCurrentDayTime());
+
+        // log.info("aaChannelGroup:" +
+        // WebsocketConstant.aaChannelGroup.size());
+        // WebsocketConstant.aaChannelGroup.writeAndFlush(new
+        // TextWebSocketFrame(JSONObject.toJSONString(ret)));
+
+        log.info("pushCtxMap:" + WebsocketConstant.pushCtxMap.size());
+        for (String s : WebsocketConstant.pushCtxMap.keySet()) {
+            log.info(String.format("key=[%s]", s));
+            WebsocketConstant.pushCtxMap.get(s).writeAndFlush(new TextWebSocketFrame(JSONObject.toJSONString(ret)));
+        }
+        return ret;
+    }
 
     @RequestMapping(value = { "/anta.html" }, method = { RequestMethod.GET })
     public ModelAndView anta(HttpServletRequest request, HttpServletResponse response) {
@@ -782,8 +812,6 @@ public class UtilController extends BaseApiController {
         List<Integer> columnWidth = new ArrayList<Integer>();
         List<String> columnTitle = new ArrayList<String>();
 
-        int data_len = list.size();
-
         List<String> colNames = list.get(0);
         int col_len = colNames.size();
         for (int i = 0; i < col_len; i++) {
@@ -813,7 +841,7 @@ public class UtilController extends BaseApiController {
             if (!swDeptMap.containsKey(temp.get(1))) {
                 // 没有部门数据
                 datas.add(temp);
-                System.out.println("error:" + temp);
+                log.error("error:" + temp);
                 continue;
             }
             // 有部门数据

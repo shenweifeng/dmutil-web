@@ -8,13 +8,6 @@
 
 <style>
 <!--
-#util_excel_layout_01_right_bottom>ul>li>span 
-{
-	display: inline-block;
-	width: 100px;
-	text-align: center;
-}
-
 .input_250 {
 	display: inline-block;
 	width: 310px;
@@ -32,9 +25,9 @@
 </style>
 
 
-<div id="util_excel_layout_01_right_bottom">
+<div id="util_anta_layout_01_right_bottom">
 
-	<div id="util_excel_div_01">
+	<div id="util_anta_div_01">
 	
 		<div style="padding: 20px; color: red;">
 		Tips：如果需要识别门店类型，请先导入部门信息，再导入门店信息，顺序不要错！</div>
@@ -45,7 +38,7 @@
 			1、导入部门信息：选择文件【<span class="color_red">.xlsx|.csv</span>】
 			<input type="file" name="file" id="file11"/>
 			<a
-			id="util_excel_btn_11_save" href="javascript:void(0);" 
+			id="util_anta_btn_11_save" href="javascript:void(0);" 
 			class="file_upload_btn">导入部门</a>
 			
 			<br/>	
@@ -64,7 +57,7 @@
 			2、导入门店信息：选择文件【<span class="color_red">.xlsx|.csv</span>】
 			<input type="file" name="file" id="file12"/>
 			<a
-			id="util_excel_btn_12_save" href="javascript:void(0);" 
+			id="util_anta_btn_12_save" href="javascript:void(0);" 
 			class="file_upload_btn">导入门店</a>
 			
 			<br/>	
@@ -79,7 +72,7 @@
 		
 	</div>
 	
-	<div id="util_excel_div_02">
+	<div id="util_anta_div_02">
 		<div style="padding: 20px; color: red;">
 		Tips：第一行为标题行，第二行开始为数据行，且只读取第1个sheet数据！</div>
 		
@@ -89,7 +82,7 @@
 			选择文件【<span class="color_red">.xlsx</span>】
 			<input type="file" name="file" id="file01"/>
 			<a
-			id="util_excel_btn_01_save" href="javascript:void(0);" 
+			id="util_anta_btn_01_save" href="javascript:void(0);" 
 			class="file_upload_btn">导入更新</a>
 			</form>
 		</div>
@@ -100,7 +93,7 @@
 			选择文件【<span class="color_red">.xls</span>】
 			<input type="file" name="file" id="file02"/>
 			<a
-			id="util_excel_btn_02_save" href="javascript:void(0);" 
+			id="util_anta_btn_02_save" href="javascript:void(0);" 
 			class="file_upload_btn">导入更新</a>
 			</form>
 		</div>
@@ -111,7 +104,7 @@
 			选择文件【<span class="color_red">.csv</span>】
 			<input type="file" name="file" id="file03"/>
 			<a
-			id="util_excel_btn_03_save" href="javascript:void(0);" 
+			id="util_anta_btn_03_save" href="javascript:void(0);" 
 			class="file_upload_btn">导入更新</a>
 			</form>
 		</div>
@@ -121,45 +114,45 @@
 <script>
 	$(function() {
 		
-		$('#util_excel_div_01').panel({
+		$('#util_anta_div_01').panel({
 		    height: 300,
 		    iconCls: 'icon-print',
 		    title:'安踏-数据导入-部门&门店'
 		}); 
-		$('#util_excel_div_02').panel({
+		$('#util_anta_div_02').panel({
 		    height: 400,
 		    iconCls: 'icon-sum',
 		    title:'安踏-报表数据-部门拆分'
 		}); 
 
 		// 部门导入
-		$('#util_excel_btn_11_save').linkbutton({
+		$('#util_anta_btn_11_save').linkbutton({
 			iconCls : 'icon-print'
 		});
 		// 门店导入
-		$('#util_excel_btn_12_save').linkbutton({
+		$('#util_anta_btn_12_save').linkbutton({
 			iconCls : 'icon-print'
 		});
 		
 		// XLSX 
-		$('#util_excel_btn_01_save').linkbutton({
+		$('#util_anta_btn_01_save').linkbutton({
 			iconCls : 'icon-print'
 		});
 		// XLS
-		$('#util_excel_btn_02_save').linkbutton({
+		$('#util_anta_btn_02_save').linkbutton({
 			iconCls : 'icon-print'
 		});
 		// CSV
-		$('#util_excel_btn_03_save').linkbutton({
+		$('#util_anta_btn_03_save').linkbutton({
 			iconCls : 'icon-print'
 		});
 
-		$('#util_excel_layout_01_right_bottom').panel({
+		$('#util_anta_layout_01_right_bottom').panel({
 			border : false
 		});
 		
 		// 点击文件上传按钮
-		$("#util_excel_btn_01_save").on("click", function(){
+		$("#util_anta_btn_01_save").on("click", function(){
 			if( $("#file01").val() == ''){
 				tipsinfo("请选择需要导入的xlsx文件！");
 				return false;
@@ -178,7 +171,7 @@
 		
 		
 		// 点击文件上传按钮
-		$("#util_excel_btn_02_save").on("click", function(){
+		$("#util_anta_btn_02_save").on("click", function(){
 			if( $("#file02").val() == ''){
 				tipsinfo("请选择需要导入的xls文件！");
 				return false;
@@ -196,7 +189,7 @@
 		});
 		
 		// 点击文件上传按钮
-		$("#util_excel_btn_03_save").on("click", function(){
+		$("#util_anta_btn_03_save").on("click", function(){
 			if( $("#file03").val() == ''){
 				tipsinfo("请选择需要导入的csv文件！");
 				return false;
@@ -214,7 +207,7 @@
 		});
 
 		// 部门：导入
-		$("#util_excel_btn_11_save").on("click", function(){
+		$("#util_anta_btn_11_save").on("click", function(){
 			if( $("#file11").val() == ''){
 				tipsinfo("请选择需要导入的文件！");
 				return false;
@@ -281,7 +274,7 @@
 
 
 		// 门店：导入
-		$("#util_excel_btn_12_save").on("click", function(){
+		$("#util_anta_btn_12_save").on("click", function(){
 			if( $("#file12").val() == ''){
 				tipsinfo("请选择需要导入的文件！");
 				return false;

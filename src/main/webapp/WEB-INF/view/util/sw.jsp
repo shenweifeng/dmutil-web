@@ -8,13 +8,6 @@
 
 <style>
 <!--
-#util_sw_layout_01_right_bottom>ul>li>span 
-{
-	display: inline-block;
-	width: 100px;
-	text-align: center;
-}
-
 .input_250 {
 	display: inline-block;
 	width: 310px;
