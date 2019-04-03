@@ -817,6 +817,7 @@ public class UtilController extends BaseApiController {
                 deptNoColumnIndex = i;
             }
         }
+        log.info(String.format("部门编号所在列索引值=[%s]", deptNoColumnIndex));
 
         for (int j = 1; j <= pathLength; j++) {
             columnTitle.add(String.format("部门%s", j));
@@ -845,7 +846,7 @@ public class UtilController extends BaseApiController {
                 continue;
             }
             // 有部门数据
-            path = swDeptMap.get(temp.get(1)).getPath();
+            path = swDeptMap.get(temp.get(deptNoColumnIndex)).getPath();
             paths = path.split("\\.");
             for (String p : paths) {
                 temp.add(swDeptMap.get(p).getDeptName());
