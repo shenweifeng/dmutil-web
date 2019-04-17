@@ -212,4 +212,53 @@ public class DateUtil {
         pstrDate = oFormatter.format(curDate);
         return pstrDate;
     }
+
+    /**
+     * 字符串转日期
+     * 
+     * @param d
+     * @param type
+     *            1：日期，2：日期+时间
+     * @return
+     */
+    public static Date str2date(String d, int type) {
+        if (StringUtil.isEmpty(d)) {
+            return null;
+        }
+        Date date = null;
+        String format = "yyyy-MM-dd";
+        if (d.indexOf("-") > 0) {
+            // yyyy-MM-dd HH:mm:ss
+            if (d.substring(0, d.indexOf("-")).length() == 2) {
+                // 补全4位年份
+                d = 20 + d;
+            }
+        } else if (d.indexOf("/") > 0) {
+            format = "yyyy/MM/dd";
+            // yyyy/MM/dd HH:mm:ss
+            if (d.substring(0, d.indexOf("/")).length() == 2) {
+                // 补全4位年份
+                d = 20 + d;
+            }
+        } else if (d.indexOf("\\.") > 0) {
+            format = "yyyy.MM.dd";
+            // yyyy/MM/dd HH:mm:ss
+            if (d.substring(0, d.indexOf("\\.")).length() == 2) {
+                // 补全4位年份
+                d = 20 + d;
+            }
+        } else {
+            format = "yyyyMMdd";
+        }
+        if (type == 2) {
+            format += " HH:mm:ss";
+        }
+        SimpleDateFormat df2 = new SimpleDateFormat(format);
+        try {
+            date = df2.parse(d);
+        } catch (ParseException e) {
+            date = null;
+        }
+        return date;
+    }
 }

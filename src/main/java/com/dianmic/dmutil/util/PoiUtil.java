@@ -305,16 +305,6 @@ public class PoiUtil {
         return workbook;
     }
 
-    // private static HSSFFont createHSSFFont(HSSFWorkbook wb) {
-    // // 创建字体样式
-    // HSSFFont font = wb.createFont();
-    // font.setFontName("微软雅黑");
-    // // font.setBoldweight((short) 100);
-    // // font.setFontHeight((short) 300);
-    // font.setColor(HSSFColor.BLUE.index);
-    // return font;
-    // }
-
     private static HSSFFont createHSSFFontTitle(HSSFWorkbook wb) {
         // 创建字体样式
         HSSFFont font = wb.createFont();
@@ -656,9 +646,13 @@ public class PoiUtil {
         if (xssfRow == null) {
             return "";
         }
-        if (xssfRow.getCellType() == xssfRow.CELL_TYPE_BOOLEAN) {
+        if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_BOOLEAN) {
             return String.valueOf(xssfRow.getBooleanCellValue());
-        } else if (xssfRow.getCellType() == xssfRow.CELL_TYPE_NUMERIC) {
+        } else if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
+            if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(xssfRow)) {
+                // 日期格式
+                return DateUtil.dateToString(xssfRow.getDateCellValue(), "yyyy-MM-dd");
+            }
             double cur = xssfRow.getNumericCellValue();
             long longVal = Math.round(cur);
             Object inputValue = null;
@@ -667,11 +661,11 @@ public class PoiUtil {
             else
                 inputValue = cur;
             return String.valueOf(inputValue);
-        } else if (xssfRow.getCellType() == xssfRow.CELL_TYPE_BLANK
-                || xssfRow.getCellType() == xssfRow.CELL_TYPE_ERROR) {
+        } else if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_BLANK
+                || xssfRow.getCellType() == XSSFCell.CELL_TYPE_ERROR) {
             return "";
         } else {
-            return String.valueOf(xssfRow.getStringCellValue());
+            return String.valueOf(xssfRow.getStringCellValue()).trim();
         }
     }
 
@@ -724,4 +718,63 @@ public class PoiUtil {
 
         return list;
     }
+
+    /**
+     * 
+     * @date 2019年4月8日 下午4:00:35
+     * 
+     * @author swf
+     * 
+     * @Description 读取多sheets
+     * 
+     * @param is
+     * @param rowStart
+     * @return
+     */
+    @SuppressWarnings({ "unused" })
+    public static List<List<String>> read_xlsx_multiple_sheets(InputStream is, int rowStart, int colNum) {
+        List<List<String>> ans = new ArrayList<List<String>>();
+        try {
+            if (is == null || is.available() < 1) {
+                return ans;
+            }
+
+            // 读取xlsx文件
+            XSSFWorkbook xssfWorkbook = null;
+            // 寻找目录读取文件
+            xssfWorkbook = new XSSFWorkbook(is);
+
+            if (xssfWorkbook == null) {
+                System.out.println("[read_xlsx_multiple_sheets]未读取到内容,请检查路径！");
+                return null;
+            }
+
+            // 遍历xlsx中的sheet
+            System.out.println("[read_xlsx_multiple_sheets]sheet数：" + xssfWorkbook.getNumberOfSheets());
+            for (int numSheet = 0; numSheet < xssfWorkbook.getNumberOfSheets(); numSheet++) {
+                XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(numSheet);
+                if (xssfSheet == null) {
+                    System.out.println("[read_xlsx_multiple_sheets]sheet不存在！");
+                    return null;
+                }
+                // 获取总列数
+                // 对于每个sheet，读取其中的每一行
+                for (int rowNum = rowStart; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
+                    XSSFRow xssfRow = xssfSheet.getRow(rowNum);
+                    if (xssfRow == null)
+                        continue;
+                    ArrayList<String> curarr = new ArrayList<String>();
+                    for (int columnNum = 0; columnNum < colNum; columnNum++) {
+                        XSSFCell cell = xssfRow.getCell(columnNum);
+                        curarr.add(getValue(cell));
+                    }
+                    ans.add(curarr);
+                }
+            }
+        } catch (IOException e) {
+            log.error("[read_xlsx_multiple_sheets] read error: " + e.getMessage(), e.getCause());
+        }
+        return ans;
+    }
+
 }

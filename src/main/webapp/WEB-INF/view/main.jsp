@@ -44,7 +44,17 @@
 							url : '${ctxPath }/util/sw.html'
 						}
 					}]
-				}]
+				}/* ,{
+					id : 103,
+					text : '点微',
+					children : [{
+						id : 10301,
+						text : '点微-银行账单',
+						attributes : {
+							url : '${ctxPath }/util/dm.html'
+						}
+					}]
+				} */]
 			}]
 		} ];
 

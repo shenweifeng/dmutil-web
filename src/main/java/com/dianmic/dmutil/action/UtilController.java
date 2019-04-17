@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dianmic.dmutil.domain.ViewExcel;
 import com.dianmic.dmutil.domain.exe.ExeDept;
 import com.dianmic.dmutil.domain.exe.SwDept;
+import com.dianmic.dmutil.util.DateUtil;
 import com.dianmic.dmutil.util.PoiUtil;
 import com.dianmic.dmutil.util.StringUtil;
 
@@ -66,6 +69,12 @@ public class UtilController extends BaseApiController {
     @RequestMapping(value = { "/sw.html" }, method = { RequestMethod.GET })
     public ModelAndView sw(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView(page_prefix + "sw");
+        return mav;
+    }
+
+    @RequestMapping(value = { "/dm.html" }, method = { RequestMethod.GET })
+    public ModelAndView dm(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView(page_prefix + "dm");
         return mav;
     }
 
@@ -813,7 +822,8 @@ public class UtilController extends BaseApiController {
         for (int i = 0; i < col_len; i++) {
             columnTitle.add(colNames.get(i));
             columnWidth.add(15);
-            if (StringUtil.isNotEmpty(colNames.get(i)) && deptNoColumnName.contains(colNames.get(i).trim())) {
+            if (deptNoColumnIndex == -1 && StringUtil.isNotEmpty(colNames.get(i))
+                    && deptNoColumnNameSet.contains(colNames.get(i).trim())) {
                 deptNoColumnIndex = i;
             }
         }
@@ -858,6 +868,109 @@ public class UtilController extends BaseApiController {
             for (int i = 0; i < col_len; i++) {
                 if (i < s.size()) {
                     newData[i] = s.get(i);
+                } else {
+                    newData[i] = "";
+                }
+            }
+            datasWrite.add(newData);
+        }
+
+        return PoiUtil.export(title, datasWrite, columnTitle);
+    }
+
+    /**
+     * 
+     * @date 2019年4月8日 下午4:10:39
+     * 
+     * @author swf
+     * 
+     * @Description 点微-银行账单
+     * 
+     * @param file
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value = "/dm/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView dm_excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model,
+            HttpServletRequest request, HttpServletResponse response) {
+        if (file != null && file.getSize() > 0) {
+            try {
+
+                List<List<String>> list = new ArrayList<List<String>>();
+                // 总条数
+                String title = file.getOriginalFilename();
+                if (title.endsWith(".xlsx")) {
+                    // 执行 xlsx
+                    title = title.substring(0, title.indexOf(".xlsx"));
+                    list = PoiUtil.read_xlsx_multiple_sheets(file.getInputStream(), 2, 6);
+                }
+                if (list != null && !list.isEmpty()) {
+                    // 总条数
+                    log.info(String.format("[dm_excel_xlsx导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
+                    HSSFWorkbook workbook = dealExcelDm(list, title);
+                    ViewExcel viewExcel = new ViewExcel();
+                    Map<String, Object> params = new HashMap<String, Object>();
+                    params.put("fileName", title);
+                    try {
+                        viewExcel.buildExcelDocument(params, workbook, request, response);
+                    } catch (Exception e) {
+                        log.error("[dm_excel_xlsx]导出异常：" + e.getMessage(), e.getCause());
+                    }
+                    return new ModelAndView(viewExcel, model);
+
+                }
+            } catch (IOException e) {
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 
+     * @date 2019年4月8日 下午4:13:02
+     * 
+     * @author swf
+     * 
+     * @Description 日期排序
+     * 
+     * @param list
+     * @param title
+     * @return
+     */
+    private HSSFWorkbook dealExcelDm(List<List<String>> list, String title) {
+
+        List<Integer> columnWidth = new ArrayList<Integer>();
+        // 名字 日期 金额（元） 交易银行 摘要 颜色
+        List<String> columnTitle = Arrays.asList(new String[] { "名字", "日期", " 金额（元）", "交易银行", "摘要", "颜色" });
+        int col_len = 6;
+        for (int i = 0; i < col_len; i++) {
+            columnWidth.add(15);
+        }
+        // 新数据集合
+        List<String[]> datasWrite = new ArrayList<String[]>();
+        String[] newData = null;
+        Date d = null;
+        for (List<String> s : list) {
+            if (s.size() < 3) {
+                continue;
+            }
+            if (StringUtil.isEmpty(s.get(0)) || StringUtil.isEmpty(s.get(1))) {
+                continue;
+            }
+            newData = new String[col_len];
+            for (int i = 0; i < col_len; i++) {
+                if (i < s.size()) {
+                    newData[i] = s.get(i);
+                    if (i == 1) {
+                        // 日期，格式化
+                        d = DateUtil.str2date(newData[i], 1);
+                        if (d != null) {
+                            newData[i] = DateUtil.dateToString(d, "yyyy-MM-dd");
+                        }
+                    }
                 } else {
                     newData[i] = "";
                 }
