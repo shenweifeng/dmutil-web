@@ -38,6 +38,9 @@ public class Constant {
 
     public final static String  project_title             = "点微服务-通用服务";
 
+    // excel列宽最大值限定为50个字符
+    public final static int     excel_column_len_max      = 50;
+
     /**
      * **********************************************************************
      * ************************ 可修改常量 ***********************************

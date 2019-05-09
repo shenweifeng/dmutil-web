@@ -297,9 +297,14 @@ public class PoiUtil {
         }
 
         // 调整列宽
+        int columnLen = 0;
         for (int i = 0; i < nColumn; i++) {
             // sheet.autoSizeColumn(i);
-            sheet.setColumnWidth(i, columnWidths[i] * 256);
+            columnLen = columnWidths[i];
+            if (columnLen > Constant.excel_column_len_max) {
+                columnLen = Constant.excel_column_len_max;
+            }
+            sheet.setColumnWidth(i, columnLen * 256);
         }
 
         return workbook;
@@ -628,8 +633,6 @@ public class PoiUtil {
                 ArrayList<String> curarr = new ArrayList<String>();
                 for (int columnNum = 0; columnNum < col_len; columnNum++) {
                     XSSFCell cell = xssfRow.getCell(columnNum);
-
-                    // curarr.add(Trim_str(getValue(cell)));
                     curarr.add(getValue(cell));
                 }
                 ans.add(curarr);
@@ -646,27 +649,35 @@ public class PoiUtil {
         if (xssfRow == null) {
             return "";
         }
-        if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_BOOLEAN) {
-            return String.valueOf(xssfRow.getBooleanCellValue());
-        } else if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
-            if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(xssfRow)) {
-                // 日期格式
-                return DateUtil.dateToString(xssfRow.getDateCellValue(), "yyyy-MM-dd");
+        String ret = "";
+        try {
+
+            if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_BOOLEAN) {
+                return String.valueOf(xssfRow.getBooleanCellValue());
+            } else if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
+                if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(xssfRow)) {
+                    // 日期格式
+                    return DateUtil.dateToString(xssfRow.getDateCellValue(), "yyyy-MM-dd");
+                }
+                double cur = xssfRow.getNumericCellValue();
+                long longVal = Math.round(cur);
+                Object inputValue = null;
+                if (Double.parseDouble(longVal + ".0") == cur)
+                    inputValue = longVal;
+                else
+                    inputValue = cur;
+                return String.valueOf(inputValue);
+            } else if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_BLANK
+                    || xssfRow.getCellType() == XSSFCell.CELL_TYPE_ERROR) {
+                return "";
+            } else {
+                return String.valueOf(xssfRow.getStringCellValue()).trim();
             }
-            double cur = xssfRow.getNumericCellValue();
-            long longVal = Math.round(cur);
-            Object inputValue = null;
-            if (Double.parseDouble(longVal + ".0") == cur)
-                inputValue = longVal;
-            else
-                inputValue = cur;
-            return String.valueOf(inputValue);
-        } else if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_BLANK
-                || xssfRow.getCellType() == XSSFCell.CELL_TYPE_ERROR) {
-            return "";
-        } else {
-            return String.valueOf(xssfRow.getStringCellValue()).trim();
+        } catch (Exception e) {
+            log.error(String.format("[read_xlsx_getValue], 第[%s]行, 第[%s]列, EM=[%s].", xssfRow.getRowIndex(),
+                    xssfRow.getColumnIndex(), e.getMessage()), e.getCause());
         }
+        return ret;
     }
 
     public static List<List<String>> read_csv(InputStream in) {
