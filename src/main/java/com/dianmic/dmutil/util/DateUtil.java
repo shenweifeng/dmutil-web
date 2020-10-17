@@ -51,6 +51,29 @@ public class DateUtil {
         return beforeAddTime = calendar.getTime();
     }
 
+    public static Date addDateMonth(Date beforeAddTime, int month) {
+
+        Calendar calendar = new GregorianCalendar();
+
+        calendar.setTime(beforeAddTime);
+
+        calendar.add(Calendar.MONTH, month);// 把日期往后增加n月.整数往后推,负数往前移动
+
+        return beforeAddTime = calendar.getTime();
+    }
+
+    public static String getDateForNextMonth(String src) {
+        if (StringUtil.isEmpty(src)) {
+            return "";
+        }
+        Date d1 = strToDate(src, "yyyy-MM-dd");
+        if (d1 == null) {
+            return "";
+        }
+        Date d2 = addDateMonth(d1, 1);
+        return dateToString(d2, "yyyy-MM-dd");
+    }
+
     public static Calendar getTodayForStart() {
         Calendar cal = Calendar.getInstance(Locale.CHINA);
         cal.set(Calendar.HOUR_OF_DAY, 0);

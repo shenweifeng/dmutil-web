@@ -72,6 +72,12 @@ public class UtilController extends BaseApiController {
         return mav;
     }
 
+    @RequestMapping(value = { "/jf.html" }, method = { RequestMethod.GET })
+    public ModelAndView jf(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView(page_prefix + "jf");
+        return mav;
+    }
+
     @RequestMapping(value = { "/dm.html" }, method = { RequestMethod.GET })
     public ModelAndView dm(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView(page_prefix + "dm");
@@ -80,8 +86,7 @@ public class UtilController extends BaseApiController {
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request,
-            HttpServletResponse response) {
+    public ModelAndView excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         if (file != null && file.getSize() > 0) {
             try {
                 List<List<String>> list = PoiUtil.read_xlsx(file.getInputStream(), 0);
@@ -222,8 +227,7 @@ public class UtilController extends BaseApiController {
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/excel/xls.do", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView excel_xls(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request,
-            HttpServletResponse response) {
+    public ModelAndView excel_xls(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         if (file != null && file.getSize() > 0) {
             try {
                 List<List<String>> list = PoiUtil.read_xls(file.getInputStream());
@@ -254,8 +258,7 @@ public class UtilController extends BaseApiController {
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/excel/csv.do", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView excel_csv(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request,
-            HttpServletResponse response) {
+    public ModelAndView excel_csv(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         if (file != null && file.getSize() > 0) {
             try {
                 List<List<String>> list = PoiUtil.read_csv(file.getInputStream());
@@ -394,8 +397,7 @@ public class UtilController extends BaseApiController {
 
     @RequestMapping(value = "/import/dept.do", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
-    public Map<String, Object> import_dept(@RequestParam("file") MultipartFile file, ModelMap model,
-            HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> import_dept(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> ret = new HashMap<String, Object>();
         int r1 = 600;
         if (file != null && file.getSize() > 0) {
@@ -496,8 +498,7 @@ public class UtilController extends BaseApiController {
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/import/shops.do", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
-    public Map<String, Object> import_shops(@RequestParam("file") MultipartFile file, ModelMap model,
-            HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> import_shops(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> ret = new HashMap<String, Object>();
         int r1 = 600;
         if (file != null && file.getSize() > 0) {
@@ -641,8 +642,7 @@ public class UtilController extends BaseApiController {
 
     @RequestMapping(value = "/sw/import/dept.do", method = { RequestMethod.GET, RequestMethod.POST })
     @ResponseBody
-    public Map<String, Object> sw_import_dept(@RequestParam("file") MultipartFile file, ModelMap model,
-            HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> sw_import_dept(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> ret = new HashMap<String, Object>();
         int r1 = 600;
         if (file != null && file.getSize() > 0) {
@@ -765,8 +765,7 @@ public class UtilController extends BaseApiController {
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/sw/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView sw_excel_xlsx(@RequestParam("file") MultipartFile file, String deptNoColumnName, ModelMap model,
-            HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView sw_excel_xlsx(@RequestParam("file") MultipartFile file, String deptNoColumnName, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         if (file != null && file.getSize() > 0) {
             try {
 
@@ -822,8 +821,7 @@ public class UtilController extends BaseApiController {
         for (int i = 0; i < col_len; i++) {
             columnTitle.add(colNames.get(i));
             columnWidth.add(15);
-            if (deptNoColumnIndex == -1 && StringUtil.isNotEmpty(colNames.get(i))
-                    && deptNoColumnNameSet.contains(colNames.get(i).trim())) {
+            if (deptNoColumnIndex == -1 && StringUtil.isNotEmpty(colNames.get(i)) && deptNoColumnNameSet.contains(colNames.get(i).trim())) {
                 deptNoColumnIndex = i;
             }
         }
@@ -894,8 +892,7 @@ public class UtilController extends BaseApiController {
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/dm/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView dm_excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model,
-            HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView dm_excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         if (file != null && file.getSize() > 0) {
             try {
 
@@ -976,6 +973,128 @@ public class UtilController extends BaseApiController {
                 }
             }
             datasWrite.add(newData);
+        }
+
+        return PoiUtil.export(title, datasWrite, columnTitle);
+    }
+
+    /**
+     * 
+     * @date 2020年10月17日08:39:01
+     * 
+     * @author swf
+     * 
+     * @Description
+     * 
+     * @param file
+     * @param dateColumnName
+     *            日期所在列名称
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/jf/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView jf_excel_xlsx(@RequestParam("file") MultipartFile file, String dateColumnName, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+        if (file != null && file.getSize() > 0) {
+            try {
+
+                List<List<String>> list = new ArrayList<List<String>>();
+                // 总条数
+                String title = file.getOriginalFilename();
+                if (title.endsWith(".xlsx")) {
+                    // 执行 xlsx
+                    title = title.substring(0, title.indexOf(".xlsx"));
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 0);
+                }
+                if (list != null && !list.isEmpty()) {
+                    // 总条数
+                    log.info(String.format("[jf_excel_xlsx导入], 记录数=[%s], 文件名=[%s].", list.size(), title));
+                    HSSFWorkbook workbook = dealExcelJf(list, title, dateColumnName);
+                    ViewExcel viewExcel = new ViewExcel();
+                    Map<String, Object> params = new HashMap<String, Object>();
+                    params.put("fileName", title);
+                    try {
+                        viewExcel.buildExcelDocument(params, workbook, request, response);
+                    } catch (Exception e) {
+                        log.error("[jf_excel_xlsx]导出异常：" + e.getMessage(), e.getCause());
+                    }
+                    return new ModelAndView(viewExcel, model);
+
+                }
+            } catch (IOException e) {
+            }
+        }
+        return null;
+    }
+
+    private HSSFWorkbook dealExcelJf(List<List<String>> list, String title, String dateColumnName) {
+
+        List<Integer> columnWidth = new ArrayList<Integer>();
+        List<String> columnTitle = new ArrayList<String>();
+
+        List<String> colNames = list.get(0);
+        int col_len = colNames.size();
+        // 部门编号所在列索引值，2019年4月3日12:26:28
+        int dateStartColumnIndex = -1;
+        int dateEndColumnIndex = -1;
+        String dateStartColumnName = "计划开始日期";
+        String dateEndColumnName = "计划结束日期";
+        if (StringUtil.isNotEmpty(dateColumnName)) {
+            dateColumnName = dateColumnName.trim().replaceAll("，", ",").replaceAll("、", ",");
+            String[] s = dateColumnName.split(",");
+            if (s.length >= 2) {
+                if (StringUtil.isNotEmpty(s[0])) {
+                    dateStartColumnName = s[0].trim();
+                }
+                if (StringUtil.isNotEmpty(s[1])) {
+                    dateEndColumnName = s[1].trim();
+                }
+            }
+        }
+        for (int i = 0; i < col_len; i++) {
+            // log.info("i=" + i + ", name=" + colNames.get(i));
+            columnTitle.add(colNames.get(i));
+            columnWidth.add(15);
+            if (dateStartColumnIndex == -1 && StringUtil.isNotEmpty(colNames.get(i)) && dateStartColumnName.equals(colNames.get(i).trim())) {
+                dateStartColumnIndex = i;
+            }
+            if (dateEndColumnIndex == -1 && StringUtil.isNotEmpty(colNames.get(i)) && dateEndColumnName.equals(colNames.get(i).trim())) {
+                dateEndColumnIndex = i;
+            }
+        }
+        log.info(String.format("开始日期列索引值=[%s]，结束日期列索引值=[%s]", dateStartColumnIndex, dateEndColumnIndex));
+
+        // 新数据集合
+        List<String[]> datasWrite = new ArrayList<String[]>();
+        String[] newData = null;
+
+        int size = list.size();
+        List<String> temp = null;
+        String startDate = null;
+        String endDate = null;
+        for (int i = 1; i < size; i++) {
+            // 序号 部门 部门名称
+            // 职位 岗位 人员 姓名 有效状态 最近登录时间 累计启动次数 日均启动次数 累计在线时长 日均在线时长 页面活跃量
+            // 单次页面访问量
+            temp = list.get(i);
+            if (dateStartColumnIndex >= 0 && dateEndColumnIndex >= 0) {
+                // 处理结束日期
+                startDate = temp.get(dateStartColumnIndex);
+                if (StringUtil.isNotEmpty(startDate)) {
+                    endDate = DateUtil.getDateForNextMonth(startDate);
+                }
+
+                temp.set(dateEndColumnIndex, endDate);
+            }
+
+            // 组装数据
+            newData = new String[col_len];
+            for (int j = 0; j < col_len; j++) {
+                newData[j] = temp.get(j);
+            }
+            datasWrite.add(newData);
+
         }
 
         return PoiUtil.export(title, datasWrite, columnTitle);

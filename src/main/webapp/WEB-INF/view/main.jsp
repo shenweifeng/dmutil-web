@@ -44,6 +44,16 @@
 							url : '${ctxPath }/util/sw.html'
 						}
 					}]
+				},{
+					id : 103,
+					text : '建发',
+					children : [{
+						id : 10301,
+						text : '修订计划结束日期',
+						attributes : {
+							url : '${ctxPath }/util/jf.html'
+						}
+					}]
 				}/* ,{
 					id : 103,
 					text : '点微',
@@ -230,7 +240,7 @@
 </div>
 
 	<div id="divWest" region="west" split="true"
-		style="width: 200px; padding-left: 5px; padding-top: 5px; text-align: left;">
+		style="width: 300px; padding-left: 5px; padding-top: 5px; text-align: left;">
 		<div id="globalTips"></div>
 		<ul  id="tree_left"></ul>
 	</div>
