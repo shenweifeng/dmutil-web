@@ -34,10 +34,10 @@
 <div id="jimmy_math_layout_01_right_bottom">
 	
 	<div id="jimmy_math_div_02">
-		（<span class="input_100" id="jimmy_math_v1" style="color: red;"></span>）=
 		（<span class="input_100" id="jimmy_math_v2"></span>）+
 		（<input type="number" class="input_100" id="jimmy_math_v3" 
-		style="border: 0px; color: blue;"/>）
+		style="border: 0px; color: blue;"/>）=
+		（<span class="input_100" id="jimmy_math_v1" style="color: red;"></span>）
 		<span id="jimmy_math_b1" 
 		style="display: inline-block; width: 50px; text-align:center; border: 1px solid black; background-color: red; color: white;">确认</span>
 		<br/><span id="jimmy_math_tips_01" style="color: red; width: 400px;text-align: left; display: inline-block;"></span>
@@ -125,7 +125,7 @@
 				doSuccess();
 
 				var vh = $("#jimmy_math_div_021").html();
-				vh = v1 + " + " + v2 + " = " + v3 + "<br/>" + vh;
+				vh = v2 + " + " + v3 + " = " + v1 + "<br/>" + vh;
 				$("#jimmy_math_div_021").html(vh);
 				
 				resetFun();
@@ -133,7 +133,7 @@
 				doFailure();
 
 				var vh = $("#jimmy_math_div_021").html();
-				vh = "<span style='color: red;'>" + v1 + " + " + v2 + " = " + v3 + "</span><br/>" + vh;
+				vh = "<span style='color: red;'>" + v2 + " + " + v3 + " = " + v1 + "</span><br/>" + vh;
 				$("#jimmy_math_div_021").html(vh);	
 			}
 		});
