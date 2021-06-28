@@ -124,12 +124,12 @@
 		$('#util_excel_div_01').panel({
 		    height: 300,
 		    iconCls: 'icon-print',
-		    title:'安踏-数据导入-部门&门店'
+		    title:'数据导入-部门&门店'
 		}); 
 		$('#util_excel_div_02').panel({
 		    height: 400,
 		    iconCls: 'icon-sum',
-		    title:'安踏-报表数据-部门拆分'
+		    title:'报表数据-部门拆分'
 		}); 
 
 		// 部门导入

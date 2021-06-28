@@ -26,20 +26,20 @@
 				state : 'open',
 				children : [{
 					id : 101,
-					text : '安踏',
+					text : '部门拆分场景',
 					children : [{
 						id : 10101,
-						text : '安踏-部门拆分',
+						text : '部门拆分',
 						attributes : {
 							url : '${ctxPath }/util/anta.html'
 						}
 					}]
 				},{
 					id : 102,
-					text : '七匹狼',
+					text : '部门追溯场景',
 					children : [{
 						id : 10201,
-						text : '七匹狼-部门拆分',
+						text : '部门追溯',
 						attributes : {
 							url : '${ctxPath }/util/sw.html'
 						}

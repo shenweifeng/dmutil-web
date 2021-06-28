@@ -93,12 +93,12 @@
 		$('#util_sw_div_01').panel({
 		    height: 300,
 		    iconCls: 'icon-print',
-		    title:'七匹狼-数据导入-部门'
+		    title:'数据导入-部门'
 		}); 
 		$('#util_sw_div_02').panel({
 		    height: 400,
 		    iconCls: 'icon-sum',
-		    title:'七匹狼-报表数据-部门拆分'
+		    title:'报表数据-部门追溯'
 		}); 
 
 		// 部门导入
