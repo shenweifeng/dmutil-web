@@ -84,12 +84,18 @@ public class UtilController extends BaseApiController {
         return mav;
     }
 
+    @RequestMapping(value = { "/course.html" }, method = { RequestMethod.GET })
+    public ModelAndView course(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView(page_prefix + "course");
+        return mav;
+    }
+
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/excel/xlsx.do", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView excel_xlsx(@RequestParam("file") MultipartFile file, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         if (file != null && file.getSize() > 0) {
             try {
-                List<List<String>> list = PoiUtil.read_xlsx(file.getInputStream(), 0);
+                List<List<String>> list = PoiUtil.read_xlsx(file.getInputStream(), 0, true);
                 if (list != null && !list.isEmpty()) {
                     // 总条数
                     String title = file.getOriginalFilename();
@@ -408,7 +414,7 @@ public class UtilController extends BaseApiController {
                 if (title.endsWith(".xlsx")) {
                     // 执行 xlsx
                     title = title.substring(0, title.indexOf(".xlsx"));
-                    list = PoiUtil.read_xlsx(file.getInputStream(), 0);
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 0, true);
                 } else if (title.endsWith(".csv")) {
                     // 执行 csv
                     title = title.substring(0, title.indexOf(".csv"));
@@ -509,7 +515,7 @@ public class UtilController extends BaseApiController {
                 if (title.endsWith(".xlsx")) {
                     // 执行 xlsx
                     title = title.substring(0, title.indexOf(".xlsx"));
-                    list = PoiUtil.read_xlsx(file.getInputStream(), 0);
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 0, true);
                 } else if (title.endsWith(".csv")) {
                     // 执行 csv
                     title = title.substring(0, title.indexOf(".csv"));
@@ -653,7 +659,7 @@ public class UtilController extends BaseApiController {
                 if (title.endsWith(".xlsx")) {
                     // 执行 xlsx
                     title = title.substring(0, title.indexOf(".xlsx"));
-                    list = PoiUtil.read_xlsx(file.getInputStream(), 1);
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 1, true);
                 }
 
                 if (list != null && !list.isEmpty()) {
@@ -775,7 +781,7 @@ public class UtilController extends BaseApiController {
                 if (title.endsWith(".xlsx")) {
                     // 执行 xlsx
                     title = title.substring(0, title.indexOf(".xlsx"));
-                    list = PoiUtil.read_xlsx(file.getInputStream(), 0);
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 0, true);
                 }
                 if (list != null && !list.isEmpty()) {
                     // 总条数
@@ -1005,7 +1011,7 @@ public class UtilController extends BaseApiController {
                 if (title.endsWith(".xlsx")) {
                     // 执行 xlsx
                     title = title.substring(0, title.indexOf(".xlsx"));
-                    list = PoiUtil.read_xlsx(file.getInputStream(), 0);
+                    list = PoiUtil.read_xlsx(file.getInputStream(), 0, true);
                 }
                 if (list != null && !list.isEmpty()) {
                     // 总条数

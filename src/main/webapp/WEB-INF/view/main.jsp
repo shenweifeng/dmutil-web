@@ -54,6 +54,16 @@
 							url : '${ctxPath }/util/jf.html'
 						}
 					}]
+				},{
+					id : 104,
+					text : '课程管理',
+					children : [{
+						id : 10401,
+						text : '课程分类追溯',
+						attributes : {
+							url : '${ctxPath }/util/course.html'
+						}
+					}]
 				}/* ,{
 					id : 103,
 					text : '点微',

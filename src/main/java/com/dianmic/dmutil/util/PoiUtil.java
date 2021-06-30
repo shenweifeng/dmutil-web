@@ -1,6 +1,7 @@
 package com.dianmic.dmutil.util;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.crypt.Decryptor;
+import org.apache.poi.poifs.crypt.EncryptionInfo;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -127,23 +131,81 @@ public class PoiUtil {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        String s = "2,0003000002    ,李宇雄,A030,集团.零售分销商.全国分销商.成都公司,总经理,分销商管理,有效,2017-09-15 08:42:29,,,0,0,,";
+        String excelPath = "D:\\厦门点微信息科技有限责任公司\\客户管理\\海沧区残联\\残疾人登记表2020-11-16.xlsx";
+        String password = "929028";
 
-        if (s.endsWith(",")) {
-            s += "???";
-        }
+        List<List<String>> ans = new ArrayList<List<String>>();
 
-        String[] s1 = s.split(",");
+        try {
+            InputStream inp = new FileInputStream(excelPath);
+            // 解密
+            POIFSFileSystem pfs = new POIFSFileSystem(inp);
+            inp.close();
+            EncryptionInfo encInfo = new EncryptionInfo(pfs);
+            Decryptor decryptor = Decryptor.getInstance(encInfo);
+            decryptor.verifyPassword(password);
 
-        System.out.println(s1.length);
+            // 读取xlsx文件
+            XSSFWorkbook xssfWorkbook = null;
+            // 寻找目录读取文件
+            xssfWorkbook = new XSSFWorkbook(decryptor.getDataStream(pfs));
 
-        for (String s2 : s1) {
-            if (StringUtil.isEmpty(s2)) {
-                System.out.println("---");
-            } else {
-                System.out.println(s2);
+            if (xssfWorkbook == null) {
+                System.out.println("未读取到内容,请检查路径！");
+                return;
             }
+
+            // 遍历xlsx中的sheet
+            // for (int numSheet = 0; numSheet <
+            // xssfWorkbook.getNumberOfSheets(); numSheet++) {
+            XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
+            if (xssfSheet == null) {
+                System.out.println("sheet不存在！");
+                return;
+            }
+            // 获取总列数
+            int col_len = xssfSheet.getRow(0).getPhysicalNumberOfCells();
+            // 对于每个sheet，读取其中的每一行
+            for (int rowNum = 1; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
+                XSSFRow xssfRow = xssfSheet.getRow(rowNum);
+                if (xssfRow == null)
+                    continue;
+                ArrayList<String> curarr = new ArrayList<String>();
+                for (int columnNum = 0; columnNum < col_len; columnNum++) {
+                    XSSFCell cell = xssfRow.getCell(columnNum);
+                    curarr.add(getValue(cell));
+                }
+                ans.add(curarr);
+            }
+
+            for (List<String> v1 : ans) {
+                System.out.println(v1);
+                // for(String v2: v1){
+                // System.out.println(v2);
+                // }
+            }
+        } catch (Exception e) {
         }
+
+        // String s = "2,0003000002
+        // ,李宇雄,A030,集团.零售分销商.全国分销商.成都公司,总经理,分销商管理,有效,2017-09-15
+        // 08:42:29,,,0,0,,";
+        //
+        // if (s.endsWith(",")) {
+        // s += "???";
+        // }
+        //
+        // String[] s1 = s.split(",");
+        //
+        // System.out.println(s1.length);
+        //
+        // for (String s2 : s1) {
+        // if (StringUtil.isEmpty(s2)) {
+        // System.out.println("---");
+        // } else {
+        // System.out.println(s2);
+        // }
+        // }
 
         // BufferedReader reader = null;
         // try {
@@ -409,8 +471,7 @@ public class PoiUtil {
      *            key:sheetName value: datas
      * @return
      */
-    public static HSSFWorkbook exportMultipleSheet(String title, List<String> columnTitle,
-            Map<String, List<String[]>> dataMap) {
+    public static HSSFWorkbook exportMultipleSheet(String title, List<String> columnTitle, Map<String, List<String[]>> dataMap) {
         HSSFWorkbook workbook = new HSSFWorkbook();
 
         if (dataMap == null || dataMap.isEmpty()) {
@@ -598,7 +659,7 @@ public class PoiUtil {
     // *************xlsx文件读取函数************************
     // 返回二维字符串数组
     @SuppressWarnings({ "unused" })
-    public static List<List<String>> read_xlsx(InputStream is, int rowStart) {
+    public static List<List<String>> read_xlsx(InputStream is, int rowStart, boolean needFormatCell) {
         List<List<String>> ans = new ArrayList<List<String>>();
         try {
             if (is == null || is.available() < 1) {
@@ -633,7 +694,11 @@ public class PoiUtil {
                 ArrayList<String> curarr = new ArrayList<String>();
                 for (int columnNum = 0; columnNum < col_len; columnNum++) {
                     XSSFCell cell = xssfRow.getCell(columnNum);
-                    curarr.add(getValue(cell));
+                    if (needFormatCell) {
+                        curarr.add(getValue(cell));
+                    } else {
+                        curarr.add(String.valueOf(cell.getStringCellValue()).trim());
+                    }
                 }
                 ans.add(curarr);
             }
@@ -667,15 +732,13 @@ public class PoiUtil {
                 else
                     inputValue = cur;
                 return String.valueOf(inputValue);
-            } else if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_BLANK
-                    || xssfRow.getCellType() == XSSFCell.CELL_TYPE_ERROR) {
+            } else if (xssfRow.getCellType() == XSSFCell.CELL_TYPE_BLANK || xssfRow.getCellType() == XSSFCell.CELL_TYPE_ERROR) {
                 return "";
             } else {
                 return String.valueOf(xssfRow.getStringCellValue()).trim();
             }
         } catch (Exception e) {
-            log.error(String.format("[read_xlsx_getValue], 第[%s]行, 第[%s]列, EM=[%s].", xssfRow.getRowIndex(),
-                    xssfRow.getColumnIndex(), e.getMessage()), e.getCause());
+            log.error(String.format("[read_xlsx_getValue], 第[%s]行, 第[%s]列, EM=[%s].", xssfRow.getRowIndex(), xssfRow.getColumnIndex(), e.getMessage()), e.getCause());
         }
         return ret;
     }
